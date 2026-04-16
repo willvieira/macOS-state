@@ -23,18 +23,29 @@ else
   echo "Powerlevel10k already installed"
 fi
 
-# Set ZSH_THEME in .zshrc
-if grep -q 'ZSH_THEME=' "$HOME/.zshrc" 2>/dev/null; then
-  sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$HOME/.zshrc"
+# Set JetBrains Mono as the default font in iTerm2 via plist
+ITERM_PREFS="$HOME/Library/Preferences/com.googlecode.iterm2.plist"
+if [[ -f "$ITERM_PREFS" ]]; then
+  echo "Setting JetBrains Mono as iTerm2 default font..."
+  /usr/libexec/PlistBuddy -c \
+    "Set :'New Bookmarks':0:'Normal Font' 'JetBrainsMono-Regular 13'" \
+    "$ITERM_PREFS" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c \
+    "Add :'New Bookmarks':0:'Normal Font' string 'JetBrainsMono-Regular 13'" \
+    "$ITERM_PREFS"
+  # Keep MesloLGS NF for non-ASCII (Powerlevel10k icons)
+  /usr/libexec/PlistBuddy -c \
+    "Set :'New Bookmarks':0:'Non Ascii Font' 'MesloLGS-NF-Regular 13'" \
+    "$ITERM_PREFS" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c \
+    "Add :'New Bookmarks':0:'Non Ascii Font' string 'MesloLGS-NF-Regular 13'" \
+    "$ITERM_PREFS"
+  /usr/libexec/PlistBuddy -c \
+    "Set :'New Bookmarks':0:'Use Non-ASCII Font' true" \
+    "$ITERM_PREFS" 2>/dev/null || true
+  defaults read com.googlecode.iterm2 &>/dev/null  # flush plist cache
 else
-  echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >> "$HOME/.zshrc"
-fi
-
-# Enable zsh-autosuggestions and zsh-syntax-highlighting plugins
-if grep -q '^plugins=' "$HOME/.zshrc" 2>/dev/null; then
-  sed -i '' 's/^plugins=(\(.*\))/plugins=(\1 zsh-autosuggestions zsh-syntax-highlighting)/' "$HOME/.zshrc"
-else
-  echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> "$HOME/.zshrc"
+  echo "iTerm2 prefs not found — open iTerm2 once before running this script"
 fi
 
 echo ""

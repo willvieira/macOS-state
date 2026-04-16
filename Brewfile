@@ -6,7 +6,8 @@ tap "homebrew/cask-fonts"
 
 # Fonts
 cask "font-meslo-lg-nerd-font"  # terminal (Powerlevel10k icons)
-cask "font-fira-code"           # editor (ligatures)
+cask "font-fira-code"            # editor (ligatures)
+cask "font-jetbrains-mono"      # primary coding font
 
 # CLI tools
 brew "mas"
