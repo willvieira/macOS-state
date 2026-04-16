@@ -14,6 +14,8 @@ run() {
 run "Homebrew & packages" homebrew.sh
 run "macOS preferences"   macos.sh
 run "Dev environment"     dev.sh
+run "Terminal setup"      terminal.sh
+run "VSCode"              vscode.sh
 run "Dotfiles"            dotfiles.sh
 
 echo ""

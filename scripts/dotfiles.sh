@@ -16,6 +16,7 @@ declare -A LINKS=(
   # ["zshrc"]="$HOME/.zshrc"
   # ["gitconfig"]="$HOME/.gitconfig"
   # ["gitignore_global"]="$HOME/.gitignore_global"
+  ["vscode/settings.json"]="$HOME/Library/Application Support/Code/User/settings.json"
 )
 
 for src_name in "${!LINKS[@]}"; do
@@ -26,6 +27,8 @@ for src_name in "${!LINKS[@]}"; do
     echo "  [missing] $src — skipping"
     continue
   fi
+
+  mkdir -p "$(dirname "$dest")"
 
   if [[ -L "$dest" ]]; then
     echo "  [already linked] $dest"

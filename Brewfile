@@ -2,7 +2,11 @@
 # Run `brew bundle` to install everything, or `brew bundle dump` to regenerate from what's currently installed.
 
 # Taps
-# tap "homebrew/cask-fonts"
+tap "homebrew/cask-fonts"
+
+# Fonts
+cask "font-meslo-lg-nerd-font"  # terminal (Powerlevel10k icons)
+cask "font-fira-code"           # editor (ligatures)
 
 # CLI tools
 brew "mas"
