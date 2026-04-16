@@ -11,17 +11,19 @@ fi
 
 echo "Symlinking dotfiles..."
 
-# Maps filename in dotfiles/ -> target path in ~
-declare -A LINKS=(
-  # ["zshrc"]="$HOME/.zshrc"
-  # ["gitconfig"]="$HOME/.gitconfig"
-  # ["gitignore_global"]="$HOME/.gitignore_global"
-  ["vscode/settings.json"]="$HOME/Library/Application Support/Code/User/settings.json"
+# Format: "src_relative_to_dotfiles|dest_absolute"
+LINKS=(
+  # "gitconfig|$HOME/.gitconfig"
+  # "gitignore_global|$HOME/.gitignore_global"
+  "zsh/.zshrc|$HOME/.zshrc"
+  "zsh/.p10k.zsh|$HOME/.p10k.zsh"
+  "vscode/settings.json|$HOME/Library/Application Support/Code/User/settings.json"
 )
 
-for src_name in "${!LINKS[@]}"; do
+for entry in "${LINKS[@]}"; do
+  src_name="${entry%%|*}"
+  dest="${entry#*|}"
   src="$DOTFILES_DIR/$src_name"
-  dest="${LINKS[$src_name]}"
 
   if [[ ! -f "$src" ]]; then
     echo "  [missing] $src — skipping"

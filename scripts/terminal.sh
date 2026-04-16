@@ -14,6 +14,23 @@ else
   echo "Oh My Zsh already installed"
 fi
 
+# zsh-autosuggestions plugin
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]]; then
+  echo "Installing zsh-autosuggestions..."
+  git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+else
+  echo "zsh-autosuggestions already installed"
+fi
+
+# zsh-syntax-highlighting plugin
+if [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]]; then
+  echo "Installing zsh-syntax-highlighting..."
+  git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+else
+  echo "zsh-syntax-highlighting already installed"
+fi
+
 # Powerlevel10k theme
 P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 if [[ ! -d "$P10K_DIR" ]]; then
@@ -50,5 +67,4 @@ fi
 
 echo ""
 echo "Terminal setup done."
-echo "Next: set MesloLGS NF as the font in iTerm2 → Preferences → Profiles → Text"
-echo "Then restart iTerm2 and run 'p10k configure' to customise your prompt."
+echo "Restart iTerm2 and run 'p10k configure' to customise your prompt."
