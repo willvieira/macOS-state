@@ -6,6 +6,11 @@ set -euo pipefail
 
 echo "Setting up dev environment..."
 
+# Git
+source "./config.env"
+git config --global user.name "$GIT_USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
+
 # Example: install mise (universal version manager for Node, Python, Ruby, etc.)
 # if ! command -v mise &>/dev/null; then
 #   brew install mise
