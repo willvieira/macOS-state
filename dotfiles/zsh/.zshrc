@@ -95,7 +95,11 @@ export EDITOR="nano"
 # Aliases
 alias cl="claude"
 alias vs="code . && exit"
+alias r="arf"
+alias c="clear"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PATH="$HOME/.local/bin:$PATH"
+
+. "$HOME/.cargo/env"
