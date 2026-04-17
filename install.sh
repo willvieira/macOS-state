@@ -17,6 +17,7 @@ run "Dev environment"     dev.sh
 run "Terminal setup"      terminal.sh
 run "VSCode"              vscode.sh
 run "Dotfiles"            dotfiles.sh
+run "Claude Code plugins" claude.sh
 
 echo ""
 echo "==> Done. Restart your Mac for all settings to take effect."
