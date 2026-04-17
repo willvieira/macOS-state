@@ -85,6 +85,7 @@ pkgs <- c(
   "reactable",
 
   # Package development
+  "languageserver",
   "devtools",
   "usethis",
   "roxygen2",
