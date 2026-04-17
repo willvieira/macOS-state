@@ -1,0 +1,55 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# VSCode
+.vscode/
+.history/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+.httr-oauth
+.Renviron
+renv/library/
+renv/staging/
+packrat/lib/
+packrat/src/
+
+# Quarto
+_freeze/
+.quarto/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.env
+.env.local
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Shell
+*.zwc
+
+# Logs & temp
+*.log
+*.tmp
+*.swp
+*~

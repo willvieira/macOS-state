@@ -14,7 +14,7 @@ echo "Symlinking dotfiles..."
 # Format: "src_relative_to_dotfiles|dest_absolute"
 LINKS=(
   # "gitconfig|$HOME/.gitconfig"
-  # "gitignore_global|$HOME/.gitignore_global"
+  "gitignore_global|$HOME/.gitignore_global"
   "zsh/.zshrc|$HOME/.zshrc"
   "zsh/.p10k.zsh|$HOME/.p10k.zsh"
   "vscode/settings.json|$HOME/Library/Application Support/Code/User/settings.json"

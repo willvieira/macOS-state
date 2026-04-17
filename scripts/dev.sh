@@ -10,6 +10,7 @@ echo "Setting up dev environment..."
 source "./config.env"
 git config --global user.name "$GIT_USER_NAME"
 git config --global user.email "$GIT_USER_EMAIL"
+git config --global core.excludesFile ~/.gitignore_global
 
 # Example: install mise (universal version manager for Node, Python, Ruby, etc.)
 # if ! command -v mise &>/dev/null; then
