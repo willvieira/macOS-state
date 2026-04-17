@@ -1,8 +1,6 @@
 # macOS Setup
 
-Scripts and configuration to set up a MacBook Pro from scratch.
-
-**Target:** MacBook Pro (Apple M5, 16 GB) — macOS 26 (Tahoe)
+Scripts and configuration to set up an Apple Silicon macOS from scratch.
 
 ## Structure
 
