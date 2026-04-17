@@ -3,7 +3,7 @@ set -euo pipefail
 
 echo "Installing Python data science stack via uv..."
 
-UV="uv pip install --system"
+UV="sudo uv pip install --system"
 
 # Core data science
 $UV \

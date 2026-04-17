@@ -48,7 +48,7 @@ Config files live in `dotfiles/` and are symlinked into `~` by `dotfiles.sh`. Ed
 ```sh
 # Full setup (run once on a fresh machine)
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 
 # Or run individual scripts
 ./scripts/terminal.sh
