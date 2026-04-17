@@ -30,7 +30,6 @@ EXTENSIONS=(
   "eamodio.gitlens"                              # GitLens — git blame, history, lens
   "mhutchie.git-graph"                           # Git Graph — visual branch history
   "usernamehw.errorlens"                         # Error Lens — inline diagnostics
-  "streetsidesoftware.code-spell-checker"        # Spell checker
   "gruntfuggly.todo-tree"                        # TODO/FIXME tree
   "editorconfig.editorconfig"                    # EditorConfig support
   "christian-kohler.path-intellisense"           # Path autocomplete
