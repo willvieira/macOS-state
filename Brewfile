@@ -1,9 +1,6 @@
 # Brewfile — declarative package list for Homebrew Bundle
 # Run `brew bundle` to install everything, or `brew bundle dump` to regenerate from what's currently installed.
 
-# Taps
-tap "homebrew/cask-fonts"
-
 # Fonts
 cask "font-meslo-lg-nerd-font"  # terminal (Powerlevel10k icons)
 cask "font-fira-code"            # editor (ligatures)
@@ -19,12 +16,11 @@ brew "node"
 brew "python3"
 brew "R"
 brew "pandoc"
-brew "pandoc-citeproc"
 brew "hugo"
 brew "ffmpeg"
 brew "imagemagick@6"
 brew "graphicsmagick"
-brew "youtube-dl"
+brew "yt-dlp"
 brew "lftp"
 brew "cmake"
 brew "ccache"
@@ -64,7 +60,7 @@ cask "vlc"
 cask "flux"
 cask "color-oracle"
 cask "docker"
-cask "spectacle"
+cask "rectangle"
 cask "dropbox"
 cask "adobe-acrobat-reader"
 cask "xquartz"
