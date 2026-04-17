@@ -24,7 +24,6 @@ THEMES=(
   "robbowen.synthwave-vscode"                  # SynthWave '84
   "atomiks.moonlight"                          # Moonlight
   "johnpapa.winteriscoming"                    # Winter is Coming
-  "antfu.vitesse"                              # Vitesse
 )
 
 echo "Installing VSCode themes..."
