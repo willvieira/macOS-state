@@ -87,7 +87,7 @@ if [[ -d "$ECC_DIR" ]]; then
     dmux-workflows dotnet-patterns email-ops energy-procurement
     evm-token-decimals exa-search fal-ai-media finance-billing-ops
     flutter-dart-code-review frontend-design frontend-patterns
-    frontend-slides golang-patterns golang-testing hexagonal-architecture
+    frontend-slides gateguard golang-patterns golang-testing hexagonal-architecture
     inventory-demand-planning java-coding-standards jpa-patterns
     kotlin-coroutines-flows kotlin-exposed-patterns kotlin-ktor-patterns
     kotlin-patterns kotlin-testing laravel-patterns laravel-plugin-discovery
