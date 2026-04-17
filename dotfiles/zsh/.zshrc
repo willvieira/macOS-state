@@ -90,6 +90,8 @@ bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
 bindkey "^W" backward-kill-word
 
+export EDITOR="nano"
+
 # Aliases
 alias cl="claude"
 alias vs="code . && exit"
