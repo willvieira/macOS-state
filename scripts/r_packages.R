@@ -126,7 +126,7 @@ if (!requireNamespace("cmdstanr", quietly = TRUE)) {
 }
 
 # GitHub-only packages
-pak::pak("nbafrank/uvr")
+pak::pak("nbafrank/uvr-r")
 uvr::install_uvr()
 
 message("\nAll R packages installed.")
