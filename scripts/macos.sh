@@ -6,6 +6,26 @@ set -euo pipefail
 
 echo "Setting macOS preferences..."
 
+CONFIG_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/user.config.toml"
+
+DISPLAY_SLEEP=$(dasel -f "$CONFIG_FILE" --plain 'macos.display_sleep' 2>/dev/null || echo "")
+IDLE_TIMEOUT=$(dasel -f "$CONFIG_FILE" --plain 'macos.idle_timeout' 2>/dev/null || echo "")
+DEFAULT_BROWSER=$(dasel -f "$CONFIG_FILE" --plain 'macos.default_browser' 2>/dev/null || echo "")
+
+# Power settings (requires sudo; bash will prompt automatically)
+if [[ -n "$DISPLAY_SLEEP" ]]; then
+  sudo pmset -a displaysleep "$DISPLAY_SLEEP"
+fi
+if [[ -n "$IDLE_TIMEOUT" ]]; then
+  sudo pmset -a sleep "$IDLE_TIMEOUT"
+fi
+
+# Default browser (installed by homebrew.sh; guarded in case not yet available)
+# macOS Sequoia shows a confirmation dialog when this runs — user must click to confirm
+if [[ -n "$DEFAULT_BROWSER" ]] && command -v defaultbrowser &>/dev/null; then
+  defaultbrowser "$DEFAULT_BROWSER"
+fi
+
 # Dock
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock show-recents -bool false
