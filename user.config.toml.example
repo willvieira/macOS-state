@@ -1,0 +1,23 @@
+# user.config.toml — Copy this file to user.config.toml and fill in your details.
+# user.config.toml is gitignored and will not be committed.
+
+[git]
+name        = "Your Name"
+email       = "you@example.com"
+signing_key = ""          # GPG key fingerprint, leave empty to skip
+
+[modules]
+homebrew = true
+macos    = true
+dev      = true
+r        = false          # Set true if you use R
+python   = false          # Set true if you use Python
+terminal = true
+vscode   = true
+dotfiles = true
+claude   = true
+
+[macos]
+display_sleep   = 10      # minutes before display sleeps (0 = never)
+idle_timeout    = 30      # minutes before system sleeps (0 = never)
+default_browser = "brave" # brave | chrome | firefox | safari | "" (skip)
