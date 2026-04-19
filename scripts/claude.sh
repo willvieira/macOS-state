@@ -3,8 +3,12 @@ set -euo pipefail
 
 SETTINGS="$HOME/.claude/settings.json"
 
-echo "  Installing Get-Shit-Done (GSD) for Claude Code..."
-npx get-shit-done-cc@latest
+if [[ ! -f "$HOME/.claude/get-shit-done/VERSION" ]]; then
+  echo "  Installing Get-Shit-Done (GSD) for Claude Code..."
+  npx get-shit-done-cc@latest
+else
+  echo "  GSD already installed ($(cat "$HOME/.claude/get-shit-done/VERSION")) — skipping"
+fi
 
 echo "  Registering plugin marketplaces and enabling plugins..."
 
