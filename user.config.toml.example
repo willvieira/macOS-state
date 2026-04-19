@@ -21,3 +21,4 @@ claude   = true
 display_sleep   = 10      # minutes before display sleeps (0 = never)
 idle_timeout    = 30      # minutes before system sleeps (0 = never)
 default_browser = "brave" # brave | chrome | firefox | safari | "" (skip)
+apply_defaults  = true    # set to false after first run to protect manual tweaks
