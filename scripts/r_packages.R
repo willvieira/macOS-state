@@ -1,133 +1,169 @@
 #!/usr/bin/env Rscript
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 
-# Install pak first for fast parallel installs
+args <- commandArgs(trailingOnly = TRUE)
+csv_file <- if (length(args) >= 1) normalizePath(args[1], mustWork = FALSE) else ""
+
+# Install pak first — used for all sources
 if (!requireNamespace("pak", quietly = TRUE)) {
   install.packages("pak")
 }
 
-pkgs <- c(
-  # Tidyverse & core wrangling
-  "tidyverse",
-  "data.table",
-  "dtplyr",
-  "janitor",
-  "skimr",
-  "broom",
-  "modelr",
-  "scales",
-  "glue",
-  "here",
-  "fs",
-  "clock",
+if (nzchar(csv_file) && file.exists(csv_file)) {
+  # ── Snapshot restore path ─────────────────────────────────────────────────
+  message("Restoring R packages from snapshot: ", csv_file)
+  pkgs <- read.csv(csv_file, stringsAsFactors = FALSE)
 
-  # Geospatial
-  "sf",
-  "terra",
-  "stars",
-  "sp",
-  "tmap",
-  "leaflet",
-  "mapview",
-  "spatstat",
-  "spdep",
-  "geoR",
-  "gstat",
-  "geodata",
-  "exactextractr",
-  "rasterVis",
-  "whitebox",
+  to_pak_ref <- function(pkg, src) {
+    if (src == "cran")           return(pkg)
+    if (src == "bioc")           return(paste0("bioc::", pkg))
+    if (grepl("^github::", src)) return(sub("^github::", "", src))
+    pkg  # unknown source — try by name
+  }
 
-  # DuckDB
-  "duckdb",
-  "duckplyr",
+  refs <- mapply(to_pak_ref, pkgs$Package, pkgs$Source, USE.NAMES = FALSE)
 
-  # Stan / Bayesian
-  "rstan",
-  "rstanarm",
-  "brms",
-  "bayesplot",
-  "tidybayes",
-  "posterior",
+  n_gh   <- sum(grepl("^github::", pkgs$Source))
+  n_bioc <- sum(pkgs$Source == "bioc")
+  n_cran <- sum(pkgs$Source == "cran")
+  message("Installing ", nrow(pkgs), " packages (",
+          n_cran, " CRAN, ", n_gh, " GitHub, ", n_bioc, " Bioc)...")
 
-  # Modeling & ML
-  "tidymodels",
-  "xgboost",
-  "ranger",
-  "glmnet",
-  "mgcv",
-  "lme4",
-  "torch",
+  pak::pak(refs)
 
-  # Visualization
-  "ggdist",
-  "patchwork",
-  "ggrepel",
-  "ggforce",
-  "gganimate",
-  "viridis",
-  "RColorBrewer",
-  "colorspace",
-  "cowplot",
-  "ggpubr",
+  # uvr requires a post-install step regardless of source
+  if ("uvr" %in% pkgs$Package) {
+    message("Running uvr::install_uvr()...")
+    uvr::install_uvr()
+  }
 
-  # Quarto & reporting
-  "quarto",
-  "rmarkdown",
-  "knitr",
-  "kableExtra",
-  "gt",
-  "gtsummary",
-  "flextable",
-  "DT",
-  "htmlwidgets",
-  "plotly",
-  "reactable",
+} else {
+  # ── Fresh machine path (no snapshot) ─────────────────────────────────────
+  message("No r-packages.csv snapshot found — installing curated package list...")
 
-  # Package development
-  "languageserver",
-  "devtools",
-  "usethis",
-  "roxygen2",
-  "testthat",
-  "pkgdown",
-  "covr",
-  "lintr",
-  "styler",
-  "pak",
-  "available",
-  "desc",
-  "lifecycle",
-  "rlang",
-  "cli",
-  "withr",
-  "vctrs",
+  pkgs <- c(
+    # Tidyverse & core wrangling
+    "tidyverse",
+    "data.table",
+    "dtplyr",
+    "janitor",
+    "skimr",
+    "broom",
+    "modelr",
+    "scales",
+    "glue",
+    "here",
+    "fs",
+    "clock",
 
-  # Utilities
-  "yaml",
-  "jsonlite",
-  "httr2",
-  "curl",
-  "future",
-  "furrr",
-  "doParallel",
-  "foreach",
-  "arrow",
-  "targets",
-  "tarchetypes"
-)
+    # Geospatial
+    "sf",
+    "terra",
+    "stars",
+    "sp",
+    "tmap",
+    "leaflet",
+    "mapview",
+    "spatstat",
+    "spdep",
+    "geoR",
+    "gstat",
+    "geodata",
+    "exactextractr",
+    "rasterVis",
+    "whitebox",
 
-message("Installing ", length(pkgs), " CRAN packages via pak...")
-pak::pak(pkgs)
+    # DuckDB
+    "duckdb",
+    "duckplyr",
 
-# cmdstanr from Stan r-universe
-if (!requireNamespace("cmdstanr", quietly = TRUE)) {
-  message("Installing cmdstanr from r-universe...")
-  pak::pak("stan-dev/cmdstanr")
+    # Stan / Bayesian
+    "rstan",
+    "rstanarm",
+    "brms",
+    "bayesplot",
+    "tidybayes",
+    "posterior",
+
+    # Modeling & ML
+    "tidymodels",
+    "xgboost",
+    "ranger",
+    "glmnet",
+    "mgcv",
+    "lme4",
+    "torch",
+
+    # Visualization
+    "ggdist",
+    "patchwork",
+    "ggrepel",
+    "ggforce",
+    "gganimate",
+    "viridis",
+    "RColorBrewer",
+    "colorspace",
+    "cowplot",
+    "ggpubr",
+
+    # Quarto & reporting
+    "quarto",
+    "rmarkdown",
+    "knitr",
+    "kableExtra",
+    "gt",
+    "gtsummary",
+    "flextable",
+    "DT",
+    "htmlwidgets",
+    "plotly",
+    "reactable",
+
+    # Package development
+    "languageserver",
+    "devtools",
+    "usethis",
+    "roxygen2",
+    "testthat",
+    "pkgdown",
+    "covr",
+    "lintr",
+    "styler",
+    "pak",
+    "available",
+    "desc",
+    "lifecycle",
+    "rlang",
+    "cli",
+    "withr",
+    "vctrs",
+
+    # Utilities
+    "yaml",
+    "jsonlite",
+    "httr2",
+    "curl",
+    "future",
+    "furrr",
+    "doParallel",
+    "foreach",
+    "arrow",
+    "targets",
+    "tarchetypes"
+  )
+
+  message("Installing ", length(pkgs), " CRAN packages via pak...")
+  pak::pak(pkgs)
+
+  # cmdstanr from Stan r-universe
+  if (!requireNamespace("cmdstanr", quietly = TRUE)) {
+    message("Installing cmdstanr from r-universe...")
+    pak::pak("stan-dev/cmdstanr")
+  }
+
+  # uvr from GitHub
+  pak::pak("nbafrank/uvr-r")
+  uvr::install_uvr()
 }
-
-# GitHub-only packages
-pak::pak("nbafrank/uvr-r")
-uvr::install_uvr()
 
 message("\nAll R packages installed.")

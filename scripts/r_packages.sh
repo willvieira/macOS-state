@@ -8,4 +8,4 @@ source $HOME/.cargo/env
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Installing R packages..."
-Rscript "$SCRIPT_DIR/r_packages.R"
+Rscript "$SCRIPT_DIR/r_packages.R" "$SCRIPT_DIR/../snapshots/r-packages.csv"
