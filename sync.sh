@@ -37,7 +37,10 @@ run_if_enabled() {
 run_if_enabled "Homebrew packages"   "modules.homebrew" brew.sh
 run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh
 run_if_enabled "macOS preferences"   "modules.macos"    macos.sh
-# NOTE: Plan 02 extends this dispatch with vscode, r, python, claude
+run_if_enabled "VSCode"              "modules.vscode"   vscode.sh
+run_if_enabled "R packages"          "modules.r"        r.sh
+run_if_enabled "Python packages"     "modules.python"   python.sh
+run_if_enabled "Claude Code config"  "modules.claude"   claude.sh
 
 echo ""
 echo "==> Sync complete. Snapshots saved to snapshots/"
