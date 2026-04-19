@@ -62,12 +62,12 @@ EXTENSIONS=(
 
 echo "Installing VSCode themes..."
 for ext in "${THEMES[@]}"; do
-  code --install-extension "$ext" --force
+  code --install-extension "$ext"
 done
 
 echo "Installing VSCode extensions..."
 for ext in "${EXTENSIONS[@]}"; do
-  code --install-extension "$ext" --force
+  code --install-extension "$ext"
 done
 
 echo "VSCode setup done."
