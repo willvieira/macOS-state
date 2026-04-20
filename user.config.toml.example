@@ -16,6 +16,11 @@ terminal = true
 vscode   = true
 dotfiles = true
 claude   = true
+browser         = true    # Brave, Chrome, Firefox — auto-detected
+iterm2          = false   # Set true if you use iTerm2
+raycast         = false   # Set true if you use Raycast
+alfred          = false   # Set true if you use Alfred
+bettertouchtool = false   # Set true if you use BetterTouchTool
 
 [macos]
 display_sleep   = 10      # minutes before display sleeps (0 = never)
