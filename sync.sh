@@ -41,6 +41,11 @@ run_if_enabled "VSCode"              "modules.vscode"   vscode.sh
 run_if_enabled "R packages"          "modules.r"        r.sh
 run_if_enabled "Python packages"     "modules.python"   python.sh
 run_if_enabled "Claude Code config"  "modules.claude"   claude.sh
+run_if_enabled "Browser extensions"       "modules.browser"         browser.sh
+run_if_enabled "iTerm2 profile"           "modules.iterm2"          iterm2.sh
+run_if_enabled "Raycast settings"         "modules.raycast"         raycast.sh
+run_if_enabled "Alfred preferences"       "modules.alfred"          alfred.sh
+run_if_enabled "BetterTouchTool presets"  "modules.bettertouchtool" bettertouchtool.sh
 
 echo ""
 echo "==> Sync complete. Snapshots saved to snapshots/"
