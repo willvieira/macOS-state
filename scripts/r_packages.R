@@ -159,6 +159,7 @@ if (nzchar(csv_file) && file.exists(csv_file)) {
   if (!requireNamespace("cmdstanr", quietly = TRUE)) {
     message("Installing cmdstanr from r-universe...")
     pak::pak("stan-dev/cmdstanr")
+    install_cmdstan()
   }
 
   # uvr from GitHub
