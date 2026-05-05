@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing Python data science stack via uv..."
+PYTHON_VERSION="${PYTHON_VERSION:-python3.14}"
 
-UV="sudo uv pip install --system"
+echo "Installing Python data science stack via uv (${PYTHON_VERSION})..."
+
+UV="sudo uv pip install --python ${PYTHON_VERSION} --system"
 
 # Core data science
 $UV \
