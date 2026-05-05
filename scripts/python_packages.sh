@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PYTHON_VERSION="${PYTHON_VERSION:-python3.14}"
+PYTHON_VERSION="${PYTHON_VERSION:-3.12}"
+VENV_PATH="${VENV_PATH:-$HOME/.venv}"
 
-echo "Installing Python data science stack via uv (${PYTHON_VERSION})..."
+echo "Installing Python data science stack via uv (${PYTHON_VERSION}) into ${VENV_PATH}..."
 
-UV="sudo uv pip install --python ${PYTHON_VERSION} --system"
+if [ ! -d "$VENV_PATH" ]; then
+  uv venv --python "${PYTHON_VERSION}" "${VENV_PATH}"
+fi
+
+UV="uv pip install --python ${VENV_PATH}/bin/python"
 
 # Core data science
 $UV \
@@ -45,4 +50,5 @@ $UV \
   tqdm rich typer "pydantic>=2" \
   httpx requests python-dotenv loguru click
 
-echo "Python packages installed."
+echo "Python packages installed into ${VENV_PATH}."
+echo "Add to your shell: export PATH=\"${VENV_PATH}/bin:\$PATH\""
