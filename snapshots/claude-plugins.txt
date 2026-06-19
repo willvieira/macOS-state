@@ -1,0 +1,11 @@
+cloud-infrastructure@claude-code-workflows
+everything-claude-code@everything-claude-code
+kubernetes-operations@claude-code-workflows
+lean4@lean4-skills
+obsidian@obsidian-skills
+open-source@posit-dev-skills
+posit-dev@posit-dev-skills
+python-development@claude-code-workflows
+quarto@posit-dev-skills
+r-lib@posit-dev-skills
+shiny@posit-dev-skills
