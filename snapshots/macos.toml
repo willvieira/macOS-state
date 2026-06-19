@@ -1,4 +1,4 @@
 [macos]
 display_sleep   = 30
-idle_timeout    = 1
+idle_timeout    = 0
 default_browser = ""
