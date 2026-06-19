@@ -56,3 +56,6 @@ venv/
 
 # AI
 .planning/
+.context/
+.hermes/
+
