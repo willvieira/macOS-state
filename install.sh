@@ -69,7 +69,6 @@ run_if_enabled "Dev environment"     "modules.dev"      dev.sh
 run_if_enabled "R packages"          "modules.r"        r_packages.sh
 run_if_enabled "Python packages"     "modules.python"   python_packages.sh
 run_if_enabled "Terminal setup"      "modules.terminal" terminal.sh
-run_if_enabled "VSCode"              "modules.vscode"   vscode.sh
 run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh
 run_if_enabled "Claude Code plugins" "modules.claude"   claude.sh
 

@@ -8,5 +8,5 @@ if ! command -v brew &>/dev/null; then
   exit 0
 fi
 
-brew bundle dump --force --file="$REPO_ROOT/Brewfile"
+brew bundle dump --force --no-describe --file="$REPO_ROOT/Brewfile"
 echo "  Brewfile updated -> Brewfile"

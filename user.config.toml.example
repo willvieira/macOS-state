@@ -13,7 +13,6 @@ dev      = true
 r        = false          # Set true if you use R
 python   = false          # Set true if you use Python
 terminal = true
-vscode   = true
 dotfiles = true
 claude   = true
 browser         = true    # Brave, Chrome, Firefox — auto-detected

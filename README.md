@@ -22,7 +22,6 @@ macos-state/
 │   ├── r_packages.sh           # Install R packages
 │   ├── python_packages.sh      # Install Python packages
 │   ├── terminal.sh             # Oh My Zsh, Powerlevel10k, plugins
-│   ├── vscode.sh               # VS Code settings and extensions
 │   ├── dotfiles.sh             # Symlink dotfiles into ~
 │   ├── claude.sh               # Claude Code plugins and GSD setup
 │   └── sync/                   # Capture scripts for current-machine state
@@ -37,7 +36,7 @@ macos-state/
 - Homebrew packages and apps
 - Dotfiles
 - macOS preferences
-- VS Code settings and extensions
+- VS Code extensions through Brewfile
 - R packages
 - Python packages
 - Claude Code settings and plugins
@@ -56,7 +55,7 @@ macos-state/
 - Git and developer CLI setup
 - R and Python packages
 - Terminal shell tooling
-- VS Code settings and extensions
+- VS Code extensions through Brewfile
 - Dotfile symlinks
 - Claude Code plugin setup
 
@@ -78,7 +77,6 @@ dev      = true
 r        = false
 python   = false
 terminal = true
-vscode   = true
 dotfiles = true
 claude   = true
 browser         = true
