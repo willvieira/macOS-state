@@ -5,7 +5,7 @@ A reproducible & syncable record of my macOS configuration for keeping my curren
 This repo has two complementary jobs:
 
 - `sync.sh` captures the current Mac into committed config files and `snapshots/`
-- `install.sh` applies the desired state on a fresh or reset Apple Silicon Mac
+- `install.sh` applies the desired state on a fresh Apple Silicon Mac
 
 ## Structure
 
