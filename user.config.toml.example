@@ -21,6 +21,9 @@ raycast         = false   # Set true if you use Raycast
 alfred          = false   # Set true if you use Alfred
 bettertouchtool = false   # Set true if you use BetterTouchTool
 
+[snapshots]
+path = ""                # Empty = iCloud Drive if available, otherwise local Application Support
+
 [macos]
 display_sleep   = 10      # Minutes before display sleeps (0 = never)
 idle_timeout    = 30      # Minutes before system sleeps (0 = never)

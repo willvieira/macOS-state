@@ -2,9 +2,10 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SNAPSHOTS_DIR="$REPO_ROOT/snapshots"
 CONFIG_FILE="$REPO_ROOT/user.config.toml"
 EXAMPLE_CONFIG_FILE="$REPO_ROOT/user.config.toml.example"
+source "$REPO_ROOT/scripts/lib/snapshots.sh"
+resolve_snapshots_dir
 
 DISPLAY_SLEEP=$(pmset -g | awk '/displaysleep/ {print $2}')
 SLEEP=$(pmset -g | awk '/^[[:space:]]+sleep[[:space:]]/ {print $2}')
@@ -186,4 +187,4 @@ for key in ordered_keys:
 output_path.write_text("\n".join(lines) + "\n")
 PYEOF
 
-echo "  macOS prefs captured -> snapshots/macos.toml"
+echo "  macOS prefs captured -> $SNAPSHOTS_DIR/macos.toml"

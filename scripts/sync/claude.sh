@@ -7,7 +7,8 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SETTINGS="$HOME/.claude/settings.json"
-SNAPSHOTS_DIR="$REPO_ROOT/snapshots"
+source "$REPO_ROOT/scripts/lib/snapshots.sh"
+resolve_snapshots_dir
 
 if [[ ! -f "$SETTINGS" ]]; then
   echo "  ~/.claude/settings.json not found — skipping"
@@ -15,7 +16,7 @@ if [[ ! -f "$SETTINGS" ]]; then
 fi
 
 cp "$SETTINGS" "$SNAPSHOTS_DIR/claude-settings.json"
-echo "  settings.json captured -> snapshots/claude-settings.json"
+echo "  settings.json captured -> $SNAPSHOTS_DIR/claude-settings.json"
 
 python3 - "$SETTINGS" "$SNAPSHOTS_DIR/claude-plugins.txt" <<'PYEOF'
 import json, sys
@@ -25,5 +26,5 @@ plugins = cfg.get("enabledPlugins", {})
 with open(sys.argv[2], "w") as out:
     for key in sorted(plugins.keys()):
         out.write(key + "\n")
-print(f"  {len(plugins)} plugins captured -> snapshots/claude-plugins.txt")
+print(f"  {len(plugins)} plugins captured -> {sys.argv[2]}")
 PYEOF

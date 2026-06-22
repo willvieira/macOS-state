@@ -2,7 +2,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SNAPSHOTS_DIR="$REPO_ROOT/snapshots"
+source "$REPO_ROOT/scripts/lib/snapshots.sh"
+resolve_snapshots_dir
 
 if ! command -v Rscript &>/dev/null; then
   echo "  Rscript not found — skipping"
@@ -45,5 +46,5 @@ n_bioc <- sum(pkgs$Source == "bioc")
 n_cran <- sum(pkgs$Source == "cran")
 message("  ", nrow(pkgs), " packages captured (",
         n_cran, " CRAN, ", n_gh, " GitHub, ", n_bioc, " Bioc)",
-        " -> snapshots/r-packages.csv")
+        " -> ", args[1])
 REOF

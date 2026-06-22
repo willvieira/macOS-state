@@ -4,7 +4,43 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SYNC_SCRIPTS_DIR="$REPO_ROOT/scripts/sync"
 CONFIG_FILE="$REPO_ROOT/user.config.toml"
-SNAPSHOTS_DIR="$REPO_ROOT/snapshots"
+SNAPSHOTS_DIR_ARG=""
+
+usage() {
+  cat <<EOF
+Usage: ./sync.sh [--snapshots-dir PATH]
+
+Options:
+  --snapshots-dir PATH  Write generated snapshots to PATH for this run
+  -h, --help            Show this help
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --snapshots-dir)
+      if [[ $# -lt 2 ]]; then
+        echo "ERROR: --snapshots-dir requires a path" >&2
+        exit 1
+      fi
+      SNAPSHOTS_DIR_ARG="$2"
+      shift 2
+      ;;
+    --snapshots-dir=*)
+      SNAPSHOTS_DIR_ARG="${1#*=}"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "ERROR: unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
 
 echo "==> macOS sync starting"
 
@@ -15,7 +51,9 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
   exit 1
 fi
 
-mkdir -p "$SNAPSHOTS_DIR"
+source "$REPO_ROOT/scripts/lib/snapshots.sh"
+resolve_snapshots_dir "$SNAPSHOTS_DIR_ARG"
+echo "Snapshots destination: $SNAPSHOTS_DIR"
 
 cfg() {
   dasel -f "$CONFIG_FILE" --plain "$1" 2>/dev/null || echo "${2:-}"
@@ -47,4 +85,4 @@ run_if_enabled "Alfred preferences"       "modules.alfred"          alfred.sh
 run_if_enabled "BetterTouchTool presets"  "modules.bettertouchtool" bettertouchtool.sh
 
 echo ""
-echo "==> Sync complete. Snapshots saved to snapshots/"
+echo "==> Sync complete. Snapshots saved to $SNAPSHOTS_DIR"

@@ -4,7 +4,7 @@ A reproducible & syncable record of my macOS configuration for keeping my curren
 
 This repo has two complementary jobs:
 
-- `sync.sh` captures the current Mac into committed config files and `snapshots/`
+- `sync.sh` captures the current Mac into config files and a configurable snapshot folder
 - `install.sh` applies the desired state on a fresh Apple Silicon Mac
 
 ## Structure
@@ -26,7 +26,6 @@ macos-state/
 │   ├── claude.sh               # Claude Code plugins and GSD setup
 │   └── sync/                   # Capture scripts for current-machine state
 ├── dotfiles/                   # Source-controlled dotfiles
-└── snapshots/                  # Generated state captures from sync.sh
 ```
 
 ## Captured state
@@ -84,12 +83,36 @@ iterm2          = false
 raycast         = false
 alfred          = false
 bettertouchtool = false
+
+[snapshots]
+path = "" # Empty = iCloud Drive if available, otherwise local Application Support
+```
+
+## Snapshot storage
+
+Generated snapshots are personal machine state and are ignored by git by default. `sync.sh` writes them outside the repo unless you choose a repo-local path.
+
+Destination precedence:
+
+1. `./sync.sh --snapshots-dir PATH` for a one-off run
+2. `[snapshots].path` in `user.config.toml`
+3. `~/Library/Mobile Documents/com~apple~CloudDocs/macOS State/snapshots` when iCloud Drive is available
+4. `~/Library/Application Support/macOS State/snapshots` as the local fallback
+
+Examples:
+
+```sh
+# One-off snapshot destination
+./sync.sh --snapshots-dir "$HOME/Dropbox/macOS State/snapshots"
+
+# Keep old repo-local behavior for a private checkout
+./sync.sh --snapshots-dir ./snapshots
 ```
 
 ## Usage
 
 ```sh
-# Capture the current Mac into repo state and snapshots
+# Capture the current Mac into configured snapshots
 ./sync.sh
 
 # Apply desired state on a fresh or reset Mac

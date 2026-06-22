@@ -2,7 +2,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SNAPSHOTS_DIR="$REPO_ROOT/snapshots"
+source "$REPO_ROOT/scripts/lib/snapshots.sh"
+resolve_snapshots_dir
 
 BRAVE_PROFILE="$HOME/Library/Application Support/BraveSoftware/Brave-Browser"
 CHROME_PROFILE="$HOME/Library/Application Support/Google/Chrome"
@@ -31,7 +32,7 @@ else
     done
   } > "$SNAPSHOTS_DIR/brave-extensions.txt"
   found=1
-  echo "  Brave extensions captured -> snapshots/brave-extensions.txt"
+  echo "  Brave extensions captured -> $SNAPSHOTS_DIR/brave-extensions.txt"
 fi
 
 # --- Chrome ---
@@ -55,7 +56,7 @@ else
     done
   } > "$SNAPSHOTS_DIR/chrome-extensions.txt"
   found=1
-  echo "  Chrome extensions captured -> snapshots/chrome-extensions.txt"
+  echo "  Chrome extensions captured -> $SNAPSHOTS_DIR/chrome-extensions.txt"
 fi
 
 # --- Firefox ---
@@ -75,7 +76,7 @@ with open(sys.argv[2], "w") as f:
     f.write("\n".join(names) + "\n")
 PYEOF
     found=1
-    echo "  Firefox extensions captured -> snapshots/firefox-extensions.txt"
+    echo "  Firefox extensions captured -> $SNAPSHOTS_DIR/firefox-extensions.txt"
   fi
 fi
 
