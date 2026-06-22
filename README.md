@@ -10,14 +10,20 @@ This repo has two complementary jobs:
 
 ## Structure
 
-```
+```text
 macos-state/
 ├── install.sh                  # Apply enabled modules to a Mac
 ├── sync.sh                     # Capture enabled modules from the current Mac
 ├── user.config.toml.example    # Non-secret module toggles and defaults
-├── Brewfile                    # Homebrew formulae, casks, MAS apps, VS Code extensions
+├── profiles/                   # Layered Homebrew Bundle profiles
+│   ├── base/Brewfile           # Core CLI tools
+│   ├── languages/              # Python, R, Node profiles
+│   ├── apps/                   # Browser and productivity app profiles
+│   ├── ai/                     # AI tool profiles
+│   ├── vscode/                 # VS Code app, extensions, and themes
+│   └── personal/               # Gitignored local Brewfile overlay
 ├── scripts/
-│   ├── homebrew.sh             # Install Homebrew and apply Brewfile
+│   ├── homebrew.sh             # Install Homebrew and apply enabled profiles
 │   ├── macos.sh                # Apply macOS defaults and browser/power settings
 │   ├── dev.sh                  # Git and developer CLI setup
 │   ├── r_packages.sh           # Install R packages
@@ -26,17 +32,17 @@ macos-state/
 │   ├── dotfiles.sh             # Symlink dotfiles into ~
 │   ├── claude.sh               # Claude Code plugins and GSD setup
 │   └── sync/                   # Capture scripts for current-machine state
-├── dotfiles/                   # Source-controlled dotfiles
+└── dotfiles/                   # Source-controlled dotfiles
 ```
 
 ## Captured state
 
 `sync.sh` writes current-machine state for enabled modules. The base captures are Homebrew, dotfiles, and macOS preferences; language stacks, AI tooling, browsers, and app-specific state are opt-in.
 
-- Homebrew packages and apps
+- Homebrew packages and apps to the configured snapshot folder
 - Dotfiles
 - macOS preferences
-- VS Code extensions through Brewfile
+- VS Code extensions through Homebrew profiles
 - R packages, when enabled
 - Python packages, when enabled
 - Claude Code settings and plugins, when enabled
@@ -50,12 +56,12 @@ macos-state/
 
 `install.sh` applies enabled setup modules:
 
-- Homebrew packages and apps from `Brewfile`
+- Homebrew packages and apps from enabled files under `profiles/`
 - macOS defaults, power settings, and default browser
 - Git and developer CLI setup
 - R and Python packages, when enabled
 - Terminal shell tooling, when enabled
-- VS Code extensions through Brewfile
+- VS Code extensions through Homebrew profiles
 - Dotfile symlinks
 - Claude Code plugin setup, when enabled
 
@@ -77,6 +83,7 @@ dev      = true
 r        = false
 python   = false
 terminal = false
+vscode   = false
 dotfiles = true
 claude   = false
 browser         = false
@@ -89,6 +96,33 @@ bettertouchtool = false
 path = "" # Empty = iCloud Drive if available, otherwise local Application Support
 ```
 
+### Homebrew profiles
+
+Homebrew state is split into layered profiles instead of one personal `Brewfile`. `scripts/homebrew.sh` always applies `profiles/base/Brewfile`, then applies optional profile files when their matching config keys are enabled.
+
+Common profile toggles:
+
+```toml
+[homebrew_profiles]
+base          = true
+terminal      = false
+python        = false
+r             = false
+node          = false
+browsers      = false
+productivity  = false
+vscode        = false
+vscode_themes = false
+vscode_python = false
+vscode_r      = false
+claude        = false
+personal      = true
+```
+
+If a profile-specific key is omitted, the installer falls back to the matching module when one exists. For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions unless you override `homebrew_profiles.python` or `homebrew_profiles.vscode_python`.
+
+Put machine-specific packages in `profiles/personal/Brewfile.local`. That file is gitignored and is applied automatically when present unless `homebrew_profiles.personal = false`.
+
 ### Optional heavier modules
 
 Some modules intentionally remain available but off by default because they encode stronger workflow choices:
@@ -96,6 +130,7 @@ Some modules intentionally remain available but off by default because they enco
 - `terminal`: installs Oh My Zsh, Powerlevel10k, and related shell plugins
 - `r`: restores or installs a broad R package stack
 - `python`: installs a broad Python data/ML/LLM-oriented environment
+- `vscode`: installs VS Code and a base editor extension set
 - `claude`: configures Claude Code, plugins, and skills
 - `browser`, `iterm2`, `raycast`, `alfred`, `bettertouchtool`: capture app-specific state when those apps are part of your setup
 

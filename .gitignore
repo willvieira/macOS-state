@@ -3,3 +3,5 @@
 user.config.toml
 snapshots/*
 !snapshots/.gitkeep
+profiles/personal/*
+!profiles/personal/.gitkeep
