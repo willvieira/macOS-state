@@ -1,3 +1,6 @@
+# reconcile: kind=cask default
+# reconcile: kind=mas default
+
 tap "drmowinckels/entracte", "https://github.com/drmowinckels/entracte"
 
 brew "espeak-ng"

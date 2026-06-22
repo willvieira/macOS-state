@@ -68,8 +68,3 @@ apply_profile_if_enabled "vscode themes" "vscode_themes" ""              false "
 apply_profile_if_enabled "vscode python" "vscode_python" "modules.python" false "$PROFILES_DIR/vscode/python.Brewfile"
 apply_profile_if_enabled "vscode r"    "vscode_r"     "modules.r"        false "$PROFILES_DIR/vscode/r.Brewfile"
 apply_profile_if_enabled "claude"      "claude"       "modules.claude"   false "$PROFILES_DIR/ai/claude.Brewfile"
-
-personal_file="$PROFILES_DIR/personal/Brewfile.local"
-if [[ -f "$personal_file" ]]; then
-  apply_profile_if_enabled "personal" "personal" "" true "$personal_file"
-fi

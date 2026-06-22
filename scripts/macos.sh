@@ -2,37 +2,43 @@
 set -euo pipefail
 
 # macOS system preferences
-# Run `defaults read` on a configured machine to find the keys you want to capture.
+# Desired values live under [macos.*] in user.config.toml
 
 echo "Setting macOS preferences..."
 
-CONFIG_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/user.config.toml"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG_FILE="$REPO_ROOT/user.config.toml"
 
 cfg() {
-  dasel -f "$CONFIG_FILE" --plain "macos.$1" 2>/dev/null || echo "${2:-}"
+  local key="$1" default="$2" value=""
+  value=$(dasel -f "$CONFIG_FILE" --plain "macos.$key" 2>/dev/null || true)
+  if [[ -z "$value" ]]; then
+    value="$default"
+  fi
+  printf '%s\n' "$value"
 }
 
-DISPLAY_SLEEP=$(cfg display_sleep "")
-IDLE_TIMEOUT=$(cfg idle_timeout "")
-DEFAULT_BROWSER=$(cfg default_browser "")
-DOCK_AUTOHIDE=$(cfg dock_autohide true)
-DOCK_SHOW_RECENTS=$(cfg dock_show_recents false)
-DOCK_TILESIZE=$(cfg dock_tilesize 48)
-FINDER_SHOW_PATHBAR=$(cfg finder_show_pathbar true)
-FINDER_SHOW_STATUS_BAR=$(cfg finder_show_status_bar true)
-FINDER_PREFERRED_VIEW_STYLE=$(cfg finder_preferred_view_style Nlsv)
-FINDER_DEFAULT_SEARCH_SCOPE=$(cfg finder_default_search_scope SCcf)
-FINDER_SHOW_ALL_FILES=$(cfg finder_show_all_files true)
-SHOW_ALL_EXTENSIONS=$(cfg show_all_extensions true)
-KEY_REPEAT=$(cfg key_repeat 2)
-INITIAL_KEY_REPEAT=$(cfg initial_key_repeat 15)
-PRESS_AND_HOLD_ENABLED=$(cfg press_and_hold_enabled false)
-TRACKPAD_CLICKING=$(cfg trackpad_clicking true)
-TAP_TO_CLICK=$(cfg tap_to_click 1)
-SCREENSHOT_LOCATION=$(cfg screenshot_location '$HOME/Desktop')
-SCREENSHOT_TYPE=$(cfg screenshot_type png)
-SCREENSHOT_DISABLE_SHADOW=$(cfg screenshot_disable_shadow true)
-INTERFACE_STYLE=$(cfg interface_style Dark)
+DISPLAY_SLEEP=$(cfg display.display_sleep "")
+IDLE_TIMEOUT=$(cfg display.idle_timeout "")
+DEFAULT_BROWSER=$(cfg browser.default "")
+DOCK_AUTOHIDE=$(cfg dock.autohide true)
+DOCK_SHOW_RECENTS=$(cfg dock.show_recents false)
+DOCK_TILESIZE=$(cfg dock.tilesize 48)
+FINDER_SHOW_PATHBAR=$(cfg finder.show_pathbar true)
+FINDER_SHOW_STATUS_BAR=$(cfg finder.show_status_bar true)
+FINDER_PREFERRED_VIEW_STYLE=$(cfg finder.preferred_view_style Nlsv)
+FINDER_DEFAULT_SEARCH_SCOPE=$(cfg finder.default_search_scope SCcf)
+FINDER_SHOW_ALL_FILES=$(cfg finder.show_all_files true)
+SHOW_ALL_EXTENSIONS=$(cfg finder.show_all_extensions true)
+KEY_REPEAT=$(cfg keyboard.key_repeat 2)
+INITIAL_KEY_REPEAT=$(cfg keyboard.initial_key_repeat 15)
+PRESS_AND_HOLD_ENABLED=$(cfg keyboard.press_and_hold_enabled true)
+TRACKPAD_CLICKING=$(cfg trackpad.clicking true)
+TAP_TO_CLICK=$(cfg trackpad.tap_to_click 1)
+SCREENSHOT_LOCATION=$(cfg screenshots.location '$HOME/Desktop')
+SCREENSHOT_TYPE=$(cfg screenshots.type png)
+SCREENSHOT_DISABLE_SHADOW=$(cfg screenshots.disable_shadow true)
+APPEARANCE_STYLE=$(cfg appearance.style Auto)
 
 current_default_browser() {
   python3 - <<'PYEOF'
@@ -88,7 +94,7 @@ if [[ -n "$IDLE_TIMEOUT" ]]; then
 fi
 
 # Default browser (installed by homebrew.sh; guarded in case not yet available)
-# macOS Sequoia shows a confirmation dialog when this runs — user must click to confirm
+# macOS shows a confirmation dialog when this runs — user must click to confirm
 if [[ -n "$DEFAULT_BROWSER" ]] && command -v defaultbrowser &>/dev/null; then
   CURRENT_BROWSER=$(current_default_browser)
   if [[ "$CURRENT_BROWSER" != "$DEFAULT_BROWSER" ]]; then
@@ -125,12 +131,24 @@ defaults write com.apple.screencapture location -string "$(expand_user_path "$SC
 defaults write com.apple.screencapture type -string "$SCREENSHOT_TYPE"
 defaults write com.apple.screencapture disable-shadow -bool "$SCREENSHOT_DISABLE_SHADOW"
 
-# Menu bar
-if [[ "$INTERFACE_STYLE" == "Light" ]]; then
-  defaults delete NSGlobalDomain AppleInterfaceStyle &>/dev/null || true
-else
-  defaults write NSGlobalDomain AppleInterfaceStyle -string "$INTERFACE_STYLE"
-fi
+# Appearance
+case "$APPEARANCE_STYLE" in
+  Auto|auto)
+    defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool true
+    defaults delete NSGlobalDomain AppleInterfaceStyle &>/dev/null || true
+    ;;
+  Light|light)
+    defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
+    defaults delete NSGlobalDomain AppleInterfaceStyle &>/dev/null || true
+    ;;
+  Dark|dark)
+    defaults write NSGlobalDomain AppleInterfaceStyleSwitchesAutomatically -bool false
+    defaults write NSGlobalDomain AppleInterfaceStyle -string Dark
+    ;;
+  *)
+    echo "  unknown appearance style '$APPEARANCE_STYLE' — skipping"
+    ;;
+esac
 
 # Restart affected apps
 for app in Finder Dock SystemUIServer; do

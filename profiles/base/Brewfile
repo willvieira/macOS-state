@@ -1,3 +1,5 @@
+# reconcile: kind=brew pattern="^(brew:)?(autoconf|automake|ccache|cmake|direnv|fd|fzf|gh|git|htop|jq|mas|mise|nano|ripgrep|tree|watch|wget)$"
+
 brew "autoconf"
 brew "automake"
 brew "ccache"

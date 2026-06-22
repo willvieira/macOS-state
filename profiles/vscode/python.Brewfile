@@ -1,3 +1,5 @@
+# reconcile: kind=vscode pattern="^(vscode:)?(ms-python|ms-toolsai)\."
+
 vscode "ms-python.black-formatter"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"

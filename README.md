@@ -2,11 +2,12 @@
 
 A modular macOS desired-state template for capturing and reapplying a machine setup.
 
-Fork it, copy `user.config.toml.example` to `user.config.toml`, and enable only the modules you use.
+Fork it, edit the committed desired-state files, copy `user.config.toml.example` to `user.config.toml`, and enable only the modules you use.
+
 This repo has two complementary jobs:
 
-- `sync.sh` captures the current Mac into config files and a configurable snapshot folder
-- `install.sh` applies the desired state on a fresh or reset Mac
+- `install.sh` applies the committed desired state to a fresh or reset Mac
+- `sync.sh` captures the current Mac into a configurable snapshot folder for review
 
 ## Structure
 
@@ -14,16 +15,16 @@ This repo has two complementary jobs:
 macos-state/
 ├── install.sh                  # Apply enabled modules to a Mac
 ├── sync.sh                     # Capture enabled modules from the current Mac
-├── user.config.toml.example    # Non-secret module toggles and defaults
+├── user.config.toml.example    # Non-secret module toggles, macOS preferences, and defaults
 ├── profiles/                   # Layered Homebrew Bundle profiles
 │   ├── base/Brewfile           # Core CLI tools
 │   ├── languages/              # Python, R, Node profiles
 │   ├── apps/                   # Browser and productivity app profiles
 │   ├── ai/                     # AI tool profiles
-│   ├── vscode/                 # VS Code app, extensions, and themes
-│   └── personal/               # Gitignored local Brewfile overlay
+│   └── vscode/                 # VS Code app, extensions, and themes
 ├── scripts/
 │   ├── homebrew.sh             # Install Homebrew and apply enabled profiles
+│   ├── reconcile_homebrew_profiles.sh # Compare captured Homebrew state with profiles
 │   ├── macos.sh                # Apply macOS defaults and browser/power settings
 │   ├── dev.sh                  # Git and developer CLI setup
 │   ├── r_packages.sh           # Install R packages
@@ -73,7 +74,7 @@ Create a local config before running either entry point:
 cp user.config.toml.example user.config.toml
 ```
 
-`user.config.toml` is gitignored. Use it to set personal Git details and enable optional modules:
+`user.config.toml` is gitignored. Use it to set personal Git details, enable optional modules, and configure macOS preferences:
 
 ```toml
 [modules]
@@ -96,9 +97,22 @@ bettertouchtool = false
 path = "" # Empty = iCloud Drive if available, otherwise local Application Support
 ```
 
+### macOS preferences
+
+macOS display, Dock, Finder, keyboard, trackpad, screenshot, browser, and appearance settings live under grouped `[macos.*]` sections in `user.config.toml`.
+
+Appearance supports:
+
+```toml
+[macos.appearance]
+style = "Auto" # Auto | Dark | Light
+```
+
+`sync.sh` still captures the live machine state to `$SNAPSHOTS_DIR/macos.toml` using copy-pasteable `[macos.*]` sections so you can compare observed state against your desired `user.config.toml` values.
+
 ### Homebrew profiles
 
-Homebrew state is split into layered profiles instead of one personal `Brewfile`. `scripts/homebrew.sh` always applies `profiles/base/Brewfile`, then applies optional profile files when their matching config keys are enabled.
+Homebrew state is split into layered profiles instead of one personal `Brewfile`. The files under `profiles/` are committed desired state and are meant to be edited directly before running `install.sh`. `scripts/homebrew.sh` always applies `profiles/base/Brewfile`, then applies optional profile files when their matching config keys are enabled.
 
 Common profile toggles:
 
@@ -116,12 +130,11 @@ vscode_themes = false
 vscode_python = false
 vscode_r      = false
 claude        = false
-personal      = true
 ```
 
 If a profile-specific key is omitted, the installer falls back to the matching module when one exists. For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions unless you override `homebrew_profiles.python` or `homebrew_profiles.vscode_python`.
 
-Put machine-specific packages in `profiles/personal/Brewfile.local`. That file is gitignored and is applied automatically when present unless `homebrew_profiles.personal = false`.
+To customize packages, edit an existing profile file or add a new committed profile file and wire it into `scripts/homebrew.sh` and `[homebrew_profiles]`. Avoid treating generated snapshots as install input; promote entries from snapshots into profiles intentionally. Optional `# reconcile:` comments in profile files tell the reconciliation script where new observed packages should be suggested.
 
 ### Optional heavier modules
 
@@ -136,7 +149,7 @@ Some modules intentionally remain available but off by default because they enco
 
 ## Snapshot storage
 
-Generated snapshots are personal machine state and are ignored by git by default. `sync.sh` writes them outside the repo unless you choose a repo-local path.
+Generated snapshots are personal observed machine state and are ignored by git by default. They are not the desired state and are not read by `install.sh`. Use them to compare a live machine against the committed config and profiles, then intentionally promote useful entries into the repo.
 
 Destination precedence:
 
@@ -154,6 +167,29 @@ Examples:
 # Keep old repo-local behavior for a private checkout
 ./sync.sh --snapshots-dir ./snapshots
 ```
+
+## Reconciling snapshots with desired state
+
+Use reconciliation when you have installed apps manually and want to bring the forked template back in sync without blindly replacing the curated profiles.
+
+```sh
+# 1. Capture observed machine state
+./sync.sh
+
+# 2. Compare observed Homebrew state against committed profiles
+./scripts/reconcile_homebrew_profiles.sh
+
+# 3. Optionally append recognized snapshot-only entries into suggested profiles
+./scripts/reconcile_homebrew_profiles.sh --apply-suggestions
+```
+
+The reconciliation report separates:
+
+- snapshot-only entries: installed on this Mac but missing from `profiles/`
+- profile-only entries: committed desired state that is not installed on this Mac
+- duplicate profile entries: the same package declared in multiple profiles
+
+`--apply-suggestions` only appends entries that match `# reconcile:` hints in the profile files. The script itself does not maintain a separate package catalog; the profiles remain the source of truth. Anything uncertain remains in the report for manual review. Review the resulting diff before committing.
 
 ## Usage
 

@@ -1,3 +1,5 @@
+# reconcile: kind=vscode pattern="(theme|tokyo|catppuccin|dracula|gruvbox|monokai|night|moonlight|nord|material)"
+
 vscode "arcticicestudio.nord-visual-studio-code"
 vscode "atomiks.moonlight"
 vscode "catppuccin.catppuccin-vsc"

@@ -1,3 +1,6 @@
+# reconcile: kind=brew pattern="zsh-"
+# reconcile: kind=cask pattern="^(cask:)?(font-|iterm2)"
+
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "font-fira-code"

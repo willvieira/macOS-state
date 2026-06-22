@@ -1,3 +1,6 @@
+# reconcile: kind=cask pattern="visual-studio-code"
+# reconcile: kind=vscode default
+
 cask "visual-studio-code"
 vscode "christian-kohler.path-intellisense"
 vscode "eamodio.gitlens"

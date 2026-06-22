@@ -1,3 +1,6 @@
+# reconcile: kind=brew pattern="^(brew:)?(r$|gdal|geos|proj|udunits|pandoc|libxml2|libgit2|cairo|freetype|fontconfig|openblas|llvm|armadillo|eigen|pixman|pkgconf)"
+# reconcile: kind=cask pattern="^(cask:)?(quarto|basictex|xquartz)"
+
 brew "llvm"
 brew "eigen"
 brew "openblas"
