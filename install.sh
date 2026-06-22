@@ -49,11 +49,11 @@ cfg() {
   dasel -f "$CONFIG_FILE" --plain "$1" 2>/dev/null || echo "${2:-}"
 }
 
-# Run a module script only if its toggle is enabled (default: true when key absent)
+# Run a module script only if its toggle is enabled
 run_if_enabled() {
-  local label="$1" key="$2" script="$3"
+  local label="$1" key="$2" script="$3" default="${4:-true}"
   local enabled
-  enabled=$(cfg "$key" "true")
+  enabled=$(cfg "$key" "$default")
   if [[ "$enabled" == "true" ]]; then
     echo ""
     echo "--> $label"
@@ -63,14 +63,14 @@ run_if_enabled() {
   fi
 }
 
-run_if_enabled "Homebrew & packages" "modules.homebrew" homebrew.sh
-run_if_enabled "macOS preferences"   "modules.macos"    macos.sh
-run_if_enabled "Dev environment"     "modules.dev"      dev.sh
-run_if_enabled "R packages"          "modules.r"        r_packages.sh
-run_if_enabled "Python packages"     "modules.python"   python_packages.sh
-run_if_enabled "Terminal setup"      "modules.terminal" terminal.sh
-run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh
-run_if_enabled "Claude Code plugins" "modules.claude"   claude.sh
+run_if_enabled "Homebrew & packages" "modules.homebrew" homebrew.sh         true
+run_if_enabled "macOS preferences"   "modules.macos"    macos.sh           true
+run_if_enabled "Dev environment"     "modules.dev"      dev.sh             true
+run_if_enabled "R packages"          "modules.r"        r_packages.sh      false
+run_if_enabled "Python packages"     "modules.python"   python_packages.sh false
+run_if_enabled "Terminal setup"      "modules.terminal" terminal.sh        false
+run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh         true
+run_if_enabled "Claude Code plugins" "modules.claude"   claude.sh           false
 
 echo ""
 echo "==> Done. Restart your Mac for all settings to take effect."

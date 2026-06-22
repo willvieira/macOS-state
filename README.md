@@ -1,11 +1,12 @@
 # macOS State
 
-A reproducible & syncable record of my macOS configuration for keeping my current machine state tidy and rebuildable from scratch.
+A modular macOS desired-state template for capturing and reapplying a machine setup.
 
+Fork it, copy `user.config.toml.example` to `user.config.toml`, and enable only the modules you use.
 This repo has two complementary jobs:
 
 - `sync.sh` captures the current Mac into config files and a configurable snapshot folder
-- `install.sh` applies the desired state on a fresh Apple Silicon Mac
+- `install.sh` applies the desired state on a fresh or reset Mac
 
 ## Structure
 
@@ -21,7 +22,7 @@ macos-state/
 │   ├── dev.sh                  # Git and developer CLI setup
 │   ├── r_packages.sh           # Install R packages
 │   ├── python_packages.sh      # Install Python packages
-│   ├── terminal.sh             # Oh My Zsh, Powerlevel10k, plugins
+│   ├── terminal.sh             # Optional Oh My Zsh, Powerlevel10k, plugins
 │   ├── dotfiles.sh             # Symlink dotfiles into ~
 │   ├── claude.sh               # Claude Code plugins and GSD setup
 │   └── sync/                   # Capture scripts for current-machine state
@@ -30,33 +31,33 @@ macos-state/
 
 ## Captured state
 
-`sync.sh` writes current-machine state for the enabled modules:
+`sync.sh` writes current-machine state for enabled modules. The base captures are Homebrew, dotfiles, and macOS preferences; language stacks, AI tooling, browsers, and app-specific state are opt-in.
 
 - Homebrew packages and apps
 - Dotfiles
 - macOS preferences
 - VS Code extensions through Brewfile
-- R packages
-- Python packages
-- Claude Code settings and plugins
-- Browser-related state
-- iTerm2 profile
-- Raycast settings
-- Alfred preferences
-- BetterTouchTool presets
+- R packages, when enabled
+- Python packages, when enabled
+- Claude Code settings and plugins, when enabled
+- Browser-related state, when enabled
+- iTerm2 profile, when enabled
+- Raycast settings, when enabled
+- Alfred preferences, when enabled
+- BetterTouchTool presets, when enabled
 
 ## Applied state
 
-`install.sh` applies the enabled setup modules:
+`install.sh` applies enabled setup modules:
 
 - Homebrew packages and apps from `Brewfile`
 - macOS defaults, power settings, and default browser
 - Git and developer CLI setup
-- R and Python packages
-- Terminal shell tooling
+- R and Python packages, when enabled
+- Terminal shell tooling, when enabled
 - VS Code extensions through Brewfile
 - Dotfile symlinks
-- Claude Code plugin setup
+- Claude Code plugin setup, when enabled
 
 ## Configuration
 
@@ -66,7 +67,7 @@ Create a local config before running either entry point:
 cp user.config.toml.example user.config.toml
 ```
 
-`user.config.toml` is gitignored. Use it to set personal Git details and enable or disable modules:
+`user.config.toml` is gitignored. Use it to set personal Git details and enable optional modules:
 
 ```toml
 [modules]
@@ -75,10 +76,10 @@ macos    = true
 dev      = true
 r        = false
 python   = false
-terminal = true
+terminal = false
 dotfiles = true
-claude   = true
-browser         = true
+claude   = false
+browser         = false
 iterm2          = false
 raycast         = false
 alfred          = false
@@ -87,6 +88,16 @@ bettertouchtool = false
 [snapshots]
 path = "" # Empty = iCloud Drive if available, otherwise local Application Support
 ```
+
+### Optional heavier modules
+
+Some modules intentionally remain available but off by default because they encode stronger workflow choices:
+
+- `terminal`: installs Oh My Zsh, Powerlevel10k, and related shell plugins
+- `r`: restores or installs a broad R package stack
+- `python`: installs a broad Python data/ML/LLM-oriented environment
+- `claude`: configures Claude Code, plugins, and skills
+- `browser`, `iterm2`, `raycast`, `alfred`, `bettertouchtool`: capture app-specific state when those apps are part of your setup
 
 ## Snapshot storage
 

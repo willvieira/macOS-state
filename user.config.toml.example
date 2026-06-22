@@ -12,10 +12,10 @@ macos    = true
 dev      = true
 r        = false          # Set true if you use R
 python   = false          # Set true if you use Python
-terminal = true
+terminal = false          # Set true to install Oh My Zsh and Powerlevel10k
 dotfiles = true
-claude   = true
-browser         = true    # Brave, Chrome, Firefox — auto-detected
+claude   = false          # Set true to configure Claude Code and GSD
+browser         = false   # Brave, Chrome, Firefox — auto-detected
 iterm2          = false   # Set true if you use iTerm2
 raycast         = false   # Set true if you use Raycast
 alfred          = false   # Set true if you use Alfred
@@ -27,7 +27,7 @@ path = ""                # Empty = iCloud Drive if available, otherwise local Ap
 [macos]
 display_sleep   = 10      # Minutes before display sleeps (0 = never)
 idle_timeout    = 30      # Minutes before system sleeps (0 = never)
-default_browser = "brave" # brave | chrome | firefox | safari | "" (skip)
+default_browser = ""      # brave | chrome | firefox | safari | "" (skip)
 
 # Dock
 dock_autohide     = true

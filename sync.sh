@@ -60,9 +60,9 @@ cfg() {
 }
 
 run_if_enabled() {
-  local label="$1" key="$2" script="$3"
+  local label="$1" key="$2" script="$3" default="${4:-true}"
   local enabled
-  enabled=$(cfg "$key" "true")
+  enabled=$(cfg "$key" "$default")
   if [[ "$enabled" == "true" ]]; then
     echo ""
     echo "--> $label"
@@ -72,17 +72,17 @@ run_if_enabled() {
   fi
 }
 
-run_if_enabled "Homebrew packages"   "modules.homebrew" brew.sh
-run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh
-run_if_enabled "macOS preferences"   "modules.macos"    macos.sh
-run_if_enabled "R packages"          "modules.r"        r.sh
-run_if_enabled "Python packages"     "modules.python"   python.sh
-run_if_enabled "Claude Code config"  "modules.claude"   claude.sh
-run_if_enabled "Browser extensions"       "modules.browser"         browser.sh
-run_if_enabled "iTerm2 profile"           "modules.iterm2"          iterm2.sh
-run_if_enabled "Raycast settings"         "modules.raycast"         raycast.sh
-run_if_enabled "Alfred preferences"       "modules.alfred"          alfred.sh
-run_if_enabled "BetterTouchTool presets"  "modules.bettertouchtool" bettertouchtool.sh
+run_if_enabled "Homebrew packages"        "modules.homebrew"        brew.sh            true
+run_if_enabled "Dotfiles"                 "modules.dotfiles"        dotfiles.sh        true
+run_if_enabled "macOS preferences"        "modules.macos"           macos.sh           true
+run_if_enabled "R packages"               "modules.r"               r.sh               false
+run_if_enabled "Python packages"          "modules.python"          python.sh          false
+run_if_enabled "Claude Code config"       "modules.claude"          claude.sh          false
+run_if_enabled "Browser extensions"       "modules.browser"         browser.sh         false
+run_if_enabled "iTerm2 profile"           "modules.iterm2"          iterm2.sh          false
+run_if_enabled "Raycast settings"         "modules.raycast"         raycast.sh         false
+run_if_enabled "Alfred preferences"       "modules.alfred"          alfred.sh          false
+run_if_enabled "BetterTouchTool presets"  "modules.bettertouchtool" bettertouchtool.sh false
 
 echo ""
 echo "==> Sync complete. Snapshots saved to $SNAPSHOTS_DIR"
