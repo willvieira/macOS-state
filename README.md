@@ -1,5 +1,8 @@
 # macOS State
 
+> *I once used the same Mac for seven years straight without a factory reset.*
+> *This is my attempt to treat a computer setup like code: versioned, reproducible, and easy to rebuild*
+
 A modular macOS desired-state template for capturing, versioning, and reapplying your machine setup.
 
 Fork this repository, edit the committed desired-state files, copy `user.config.toml.example` to `user.config.toml`, and enable only the modules you actually use.
@@ -8,11 +11,6 @@ This repo has two complementary jobs:
 
 - `install.sh` applies your committed desired state to a fresh or reset Mac.
 - `snapshot.sh` captures your current machine state into a configurable snapshot folder, so you can review changes before committing them.
-
-> **Why this exists**
->
-> I once used the same Mac for seven years straight without a factory reset.  
-> This is my attempt to treat a computer setup like code: versioned, reproducible, and easy to rebuild
 
 ## Structure
 
