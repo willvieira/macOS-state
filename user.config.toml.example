@@ -14,9 +14,14 @@ r               = false   # Set true if you use R
 python          = false   # Set true if you use Python
 terminal        = false   # Set true to install Oh My Zsh and Powerlevel10k
 vscode          = false   # Set true to install VS Code and base extensions
-dotfiles        = true
-claude          = false   # Set true to configure Claude Code and GSD
+productivity    = false   # Set true to install GUI productivity apps
+dotfiles        = false   # Set true to symlink config files
+local_bin       = false   # Set true to snapshot ~/.local/bin, ~/bin, and similar user tools
+manual_apps     = false   # Set true to snapshot apps that likely need manual installation
+claude          = false   # Set true to configure Claude Code
 browser         = false   # Brave, Chrome, Firefox — auto-detected
+node            = false   # Set true to install Node and pnpm
+vscode_themes   = false   # Set true to install optional VS Code themes
 iterm2          = false   # Set true if you use iTerm2
 raycast         = false   # Set true if you use Raycast
 alfred          = false   # Set true if you use Alfred
@@ -24,20 +29,6 @@ bettertouchtool = false   # Set true if you use BetterTouchTool
 
 [snapshots]
 path = ""                # Empty = iCloud Drive if available, otherwise local Application Support
-
-[homebrew_profiles]
-base          = true      # Core CLI tools used by this repo
-terminal      = false     # Defaults to modules.terminal when omitted
-python        = false     # Defaults to modules.python when omitted
-r             = false     # Defaults to modules.r when omitted
-node          = false     # Node and pnpm
-browsers      = false     # Defaults to modules.browser when omitted
-productivity  = false     # GUI apps such as Slack, Obsidian, Dropbox, Nextcloud
-vscode        = false     # Defaults to modules.vscode when omitted
-vscode_themes = false     # Optional theme pack
-vscode_python = false     # Defaults to modules.python when omitted
-vscode_r      = false     # Defaults to modules.r when omitted
-claude        = false     # Defaults to modules.claude when omitted
 
 [macos.display]
 display_sleep = 10        # Minutes before display sleeps (0 = never)

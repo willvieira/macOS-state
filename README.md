@@ -42,6 +42,8 @@ macos-state/
 
 - Homebrew packages and apps to the configured snapshot folder
 - Dotfiles
+- User-local command metadata from `~/.local/bin`, `~/bin`, and `~/.cargo/bin`, when enabled
+- Manual `/Applications` installs that are not Apple defaults, App Store apps, or matched Homebrew casks, when enabled
 - macOS preferences
 - VS Code extensions through Homebrew profiles
 - R packages, when enabled
@@ -86,8 +88,13 @@ python          = false
 terminal        = false
 vscode          = false
 dotfiles        = true
+local_bin       = false
+manual_apps     = false
 claude          = false
 browser         = false
+node            = false
+productivity    = false
+vscode_themes   = false
 iterm2          = false
 raycast         = false
 alfred          = false
@@ -112,29 +119,11 @@ style = "Auto" # Auto | Dark | Light
 
 ### Homebrew profiles
 
-Homebrew state is split into layered profiles instead of one personal `Brewfile`. The files under `profiles/` are committed desired state and are meant to be edited directly before running `install.sh`. `scripts/homebrew.sh` always applies `profiles/base/Brewfile`, then applies optional profile files when their matching config keys are enabled.
+Homebrew state is split into layered profiles instead of one personal `Brewfile`. The files under `profiles/` are committed desired state and are meant to be edited directly before running `install.sh`. `scripts/homebrew.sh` applies `profiles/base/Brewfile` when `modules.homebrew = true`, then applies optional profile files from the matching `[modules]` toggles.
 
-Common profile toggles:
+For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions. Profile-only package groups such as `node`, `productivity`, and `vscode_themes` also live under `[modules]` so config has a single toggle table.
 
-```toml
-[homebrew_profiles]
-base          = true
-terminal      = false
-python        = false
-r             = false
-node          = false
-browsers      = false
-productivity  = false
-vscode        = false
-vscode_themes = false
-vscode_python = false
-vscode_r      = false
-claude        = false
-```
-
-If a profile-specific key is omitted, the installer falls back to the matching module when one exists. For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions unless you override `homebrew_profiles.python` or `homebrew_profiles.vscode_python`.
-
-To customize packages, edit an existing profile file or add a new committed profile file and wire it into `scripts/homebrew.sh` and `[homebrew_profiles]`. Avoid treating generated snapshots as install input; promote entries from snapshots into profiles intentionally. Optional `# reconcile:` comments in profile files tell the reconciliation script where new observed packages should be suggested.
+To customize packages, edit an existing profile file or add a new committed profile file and wire it into `scripts/homebrew.sh` with a matching `[modules]` key. Avoid treating generated snapshots as install input; promote entries from snapshots into profiles intentionally. Optional `# reconcile:` comments in profile files tell the reconciliation script where new observed packages should be suggested.
 
 ### Optional heavier modules
 
@@ -145,6 +134,9 @@ Some modules intentionally remain available but off by default because they enco
 - `python`: installs a broad Python data/ML/LLM-oriented environment
 - `vscode`: installs VS Code and a base editor extension set
 - `claude`: configures Claude Code, plugins, and skills
+- `local_bin`: captures metadata for user-local commands such as `~/.local/bin/hermes` without reading file contents
+- `manual_apps`: captures `/Applications` apps that appear to require manual reinstall instructions after excluding Apple defaults, App Store apps, and Homebrew casks
+- `node`, `productivity`, `vscode_themes`: install optional Homebrew profile groups
 - `browser`, `iterm2`, `raycast`, `alfred`, `bettertouchtool`: capture app-specific state when those apps are part of your setup
 
 ## Snapshot storage

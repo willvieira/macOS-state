@@ -8,10 +8,14 @@ echo "Setting up dev environment..."
 
 # Git
 CONFIG_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/user.config.toml"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-GIT_NAME=$(dasel -f "$CONFIG_FILE" --plain 'git.name' 2>/dev/null || echo "")
-GIT_EMAIL=$(dasel -f "$CONFIG_FILE" --plain 'git.email' 2>/dev/null || echo "")
-GIT_SIGN=$(dasel -f "$CONFIG_FILE" --plain 'git.signing_key' 2>/dev/null || echo "")
+source "$REPO_ROOT/scripts/lib/config.sh"
+ensure_dasel
+
+GIT_NAME=$(cfg 'git.name' "")
+GIT_EMAIL=$(cfg 'git.email' "")
+GIT_SIGN=$(cfg 'git.signing_key' "")
 
 [[ -n "$GIT_NAME" ]]  && git config --global user.name "$GIT_NAME"
 [[ -n "$GIT_EMAIL" ]] && git config --global user.email "$GIT_EMAIL"

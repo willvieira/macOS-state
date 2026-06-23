@@ -207,13 +207,19 @@ def append_entries(root: Path, assignments: Sequence[Tuple[Entry, str]]) -> None
                 handle.write(entry.line + "\n")
 
 
-def print_entries(title: str, entries: Sequence[Entry], root: Path, rules: Sequence[Rule], include_suggestions: bool = False) -> None:
+def entry_location(entry: Entry, root: Path, snapshot: Path) -> str:
+    if entry.source.resolve() == snapshot.resolve():
+        return f"./Brewfile:{entry.line_number}"
+    return f"{relative(entry.source, root)}:{entry.line_number}"
+
+
+def print_entries(title: str, entries: Sequence[Entry], root: Path, snapshot: Path, rules: Sequence[Rule], include_suggestions: bool = False) -> None:
     print(title)
     if not entries:
         print("  none")
         return
     for entry in sorted(entries, key=lambda e: (e.kind, e.name.lower(), e.line)):
-        location = f"{relative(entry.source, root)}:{entry.line_number}"
+        location = entry_location(entry, root, snapshot)
         suffix = ""
         if include_suggestions:
             suggestion = suggest_profile(entry, rules, root)
@@ -254,9 +260,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     print(f"Snapshot entries: {len(snapshot_index)}")
     print(f"Profile entries: {len(profile_index)}")
     print()
-    print_entries("Snapshot-only entries", snapshot_only, root, rules, include_suggestions=True)
+    print_entries("Snapshot-only entries", snapshot_only, root, snapshot, rules, include_suggestions=True)
     print()
-    print_entries("Profile-only entries", profile_only, root, rules)
+    print_entries("Profile-only entries", profile_only, root, snapshot, rules)
     print()
     print("Duplicate profile entries")
     if not duplicates:

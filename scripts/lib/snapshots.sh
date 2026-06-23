@@ -6,9 +6,18 @@ SNAPSHOT_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SNAPSHOT_REPO_ROOT="$(cd "$SNAPSHOT_LIB_DIR/../.." && pwd)"
 SNAPSHOT_CONFIG_FILE="${CONFIG_FILE:-$SNAPSHOT_REPO_ROOT/user.config.toml}"
 
+source "$SNAPSHOT_REPO_ROOT/scripts/lib/config.sh"
+
 snapshot_cfg() {
   if command -v dasel &>/dev/null && [[ -f "$SNAPSHOT_CONFIG_FILE" ]]; then
-    dasel -f "$SNAPSHOT_CONFIG_FILE" --plain "$1" 2>/dev/null || echo "${2:-}"
+    local value
+    value=$(dasel_read "$SNAPSHOT_CONFIG_FILE" "$1" || true)
+    value=$(normalize_config_value "$value")
+    if [[ -z "$value" ]]; then
+      echo "${2:-}"
+    else
+      echo "$value"
+    fi
   else
     echo "${2:-}"
   fi

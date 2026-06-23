@@ -15,39 +15,8 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
   exit 1
 fi
 
-# Bootstrap dasel (TOML parser) — must run before any module script
-bootstrap_dasel() {
-  if command -v dasel &>/dev/null; then
-    echo "dasel already installed"
-    return 0
-  fi
-  echo "==> Bootstrapping dasel (TOML parser)..."
-  local arch asset url
-  arch=$(uname -m)
-  if [[ "$arch" == "arm64" ]]; then
-    asset="darwin_arm64"
-  else
-    asset="darwin_amd64"
-  fi
-  url=$(curl -sSLf https://api.github.com/repos/tomwright/dasel/releases/latest \
-    | grep browser_download_url \
-    | grep -v ".gz" \
-    | grep "$asset" \
-    | cut -d'"' -f4)
-  if [[ -z "$url" ]]; then
-    echo "ERROR: could not determine dasel download URL" >&2
-    exit 1
-  fi
-  curl -sSLf "$url" -o /usr/local/bin/dasel
-  chmod +x /usr/local/bin/dasel
-  echo "dasel installed: $(/usr/local/bin/dasel --version 2>/dev/null || echo 'version unknown')"
-}
-bootstrap_dasel
-
-# Config reader with safe fallback (handles set -euo pipefail + missing keys)
-cfg() {
-  dasel -f "$CONFIG_FILE" --plain "$1" 2>/dev/null || echo "${2:-}"
-}
+source "$REPO_ROOT/scripts/lib/config.sh"
+ensure_dasel
 
 # Run a module script only if its toggle is enabled
 run_if_enabled() {

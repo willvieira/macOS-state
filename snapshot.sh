@@ -52,12 +52,10 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
 fi
 
 source "$REPO_ROOT/scripts/lib/snapshots.sh"
+source "$REPO_ROOT/scripts/lib/config.sh"
+ensure_dasel
 resolve_snapshots_dir "$SNAPSHOTS_DIR_ARG"
 echo "Snapshots destination: $SNAPSHOTS_DIR"
-
-cfg() {
-  dasel -f "$CONFIG_FILE" --plain "$1" 2>/dev/null || echo "${2:-}"
-}
 
 run_if_enabled() {
   local label="$1" key="$2" script="$3" default="${4:-true}"
@@ -74,6 +72,8 @@ run_if_enabled() {
 
 run_if_enabled "Homebrew packages"        "modules.homebrew"        brew.sh            true
 run_if_enabled "Dotfiles"                 "modules.dotfiles"        dotfiles.sh        true
+run_if_enabled "Local bin tools"          "modules.local_bin"       local-bin.sh       false
+run_if_enabled "Manual Applications"      "modules.manual_apps"     manual-apps.sh     false
 run_if_enabled "macOS preferences"        "modules.macos"           macos.sh           true
 run_if_enabled "R packages"               "modules.r"               r.sh               false
 run_if_enabled "Python packages"          "modules.python"          python.sh          false

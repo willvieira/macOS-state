@@ -9,9 +9,13 @@ echo "Setting macOS preferences..."
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_FILE="$REPO_ROOT/user.config.toml"
 
+source "$REPO_ROOT/scripts/lib/config.sh"
+ensure_dasel
+
 cfg() {
   local key="$1" default="$2" value=""
-  value=$(dasel -f "$CONFIG_FILE" --plain "macos.$key" 2>/dev/null || true)
+  value=$(dasel_read "$CONFIG_FILE" "macos.$key" || true)
+  value=$(normalize_config_value "$value")
   if [[ -z "$value" ]]; then
     value="$default"
   fi
