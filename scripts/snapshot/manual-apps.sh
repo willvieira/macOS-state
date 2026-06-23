@@ -10,9 +10,7 @@ OUTPUT="$SNAPSHOTS_DIR/manual-apps.toml"
 python3 - "$REPO_ROOT" "$SNAPSHOTS_DIR" "$OUTPUT" <<'PYEOF'
 from __future__ import annotations
 
-import glob
 import json
-import os
 import plistlib
 import re
 import sys

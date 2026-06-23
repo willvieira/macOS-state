@@ -56,9 +56,18 @@ cfg() {
 }
 
 dasel_read() {
-  local file="$1" key="$2"
-  dasel -i toml "$key" < "$file" 2>/dev/null \
-    || dasel -f "$file" --plain "$key" 2>/dev/null
+  local file="$1" key="$2" value
+  # Each form must only emit on success; on a flag/parse error dasel prints a
+  # usage blob to stdout, which must never be mistaken for a config value.
+  if value=$(dasel -i toml "$key" < "$file" 2>/dev/null); then
+    printf '%s' "$value"
+    return 0
+  fi
+  if value=$(dasel -f "$file" --plain "$key" 2>/dev/null); then
+    printf '%s' "$value"
+    return 0
+  fi
+  return 1
 }
 
 normalize_config_value() {
