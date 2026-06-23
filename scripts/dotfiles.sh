@@ -33,10 +33,20 @@ for entry in "${LINKS[@]}"; do
   mkdir -p "$(dirname "$dest")"
 
   if [[ -L "$dest" ]]; then
-    echo "  [already linked] $dest"
-  elif [[ -f "$dest" ]]; then
-    echo "  [backing up] $dest -> $dest.bak"
-    mv "$dest" "$dest.bak"
+    if [[ "$(readlink "$dest")" == "$src" ]]; then
+      echo "  [already linked] $dest"
+    else
+      echo "  [relinking] $dest -> $src"
+      rm -f "$dest"
+      ln -s "$src" "$dest"
+    fi
+  elif [[ -e "$dest" ]]; then
+    backup="$dest.bak"
+    if [[ -e "$backup" ]]; then
+      backup="$dest.bak.$(date +%Y%m%d%H%M%S)"
+    fi
+    echo "  [backing up] $dest -> $backup"
+    mv "$dest" "$backup"
     ln -s "$src" "$dest"
   else
     ln -s "$src" "$dest"

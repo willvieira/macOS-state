@@ -71,7 +71,14 @@ else
 import json, sys
 with open(sys.argv[1]) as f:
     data = json.load(f)
-names = [a.get("name") or a.get("id") or "unknown" for a in data.get("addons", [])]
+
+
+def addon_name(addon):
+    locale = addon.get("defaultLocale") or {}
+    return locale.get("name") or addon.get("name") or addon.get("id") or "unknown"
+
+
+names = [addon_name(a) for a in data.get("addons", [])]
 with open(sys.argv[2], "w") as f:
     f.write("\n".join(names) + "\n")
 PYEOF
