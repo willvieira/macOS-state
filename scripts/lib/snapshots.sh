@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Shared snapshot destination resolver for sync scripts
+# Shared snapshot destination resolver for snapshot scripts
 
 SNAPSHOT_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SNAPSHOT_REPO_ROOT="$(cd "$SNAPSHOT_LIB_DIR/../.." && pwd)"

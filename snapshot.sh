@@ -2,13 +2,13 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SYNC_SCRIPTS_DIR="$REPO_ROOT/scripts/sync"
+SNAPSHOT_SCRIPTS_DIR="$REPO_ROOT/scripts/snapshot"
 CONFIG_FILE="$REPO_ROOT/user.config.toml"
 SNAPSHOTS_DIR_ARG=""
 
 usage() {
   cat <<EOF
-Usage: ./sync.sh [--snapshots-dir PATH]
+Usage: ./snapshot.sh [--snapshots-dir PATH]
 
 Options:
   --snapshots-dir PATH  Write generated snapshots to PATH for this run
@@ -42,12 +42,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-echo "==> macOS sync starting"
+echo "==> macOS snapshot starting"
 
 if [[ ! -f "$CONFIG_FILE" ]]; then
   echo "ERROR: user.config.toml not found." >&2
   echo "  cp user.config.toml.example user.config.toml" >&2
-  echo "  Then fill in your details before running sync.sh." >&2
+  echo "  Then fill in your details before running snapshot.sh." >&2
   exit 1
 fi
 
@@ -66,7 +66,7 @@ run_if_enabled() {
   if [[ "$enabled" == "true" ]]; then
     echo ""
     echo "--> $label"
-    bash "$SYNC_SCRIPTS_DIR/$script"
+    bash "$SNAPSHOT_SCRIPTS_DIR/$script"
   else
     echo "--> [skipped] $label (disabled in user.config.toml)"
   fi
@@ -85,4 +85,4 @@ run_if_enabled "Alfred preferences"       "modules.alfred"          alfred.sh   
 run_if_enabled "BetterTouchTool presets"  "modules.bettertouchtool" bettertouchtool.sh false
 
 echo ""
-echo "==> Sync complete. Snapshots saved to $SNAPSHOTS_DIR"
+echo "==> Snapshot complete. Files saved to $SNAPSHOTS_DIR"

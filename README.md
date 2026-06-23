@@ -7,14 +7,14 @@ Fork it, edit the committed desired-state files, copy `user.config.toml.example`
 This repo has two complementary jobs:
 
 - `install.sh` applies the committed desired state to a fresh or reset Mac
-- `sync.sh` captures the current Mac into a configurable snapshot folder for review
+- `snapshot.sh` captures the current Mac into a configurable snapshot folder for review
 
 ## Structure
 
 ```text
 macos-state/
 ├── install.sh                  # Apply enabled modules to a Mac
-├── sync.sh                     # Capture enabled modules from the current Mac
+├── snapshot.sh                 # Capture enabled modules from the current Mac
 ├── user.config.toml.example    # Non-secret module toggles, macOS preferences, and defaults
 ├── profiles/                   # Layered Homebrew Bundle profiles
 │   ├── base/Brewfile           # Core CLI tools
@@ -32,13 +32,13 @@ macos-state/
 │   ├── terminal.sh             # Optional Oh My Zsh, Powerlevel10k, plugins
 │   ├── dotfiles.sh             # Symlink dotfiles into ~
 │   ├── claude.sh               # Claude Code plugins and GSD setup
-│   └── sync/                   # Capture scripts for current-machine state
+│   └── snapshot/               # Capture scripts for current-machine state
 └── dotfiles/                   # Source-controlled dotfiles
 ```
 
 ## Captured state
 
-`sync.sh` writes current-machine state for enabled modules. The base captures are Homebrew, dotfiles, and macOS preferences; language stacks, AI tooling, browsers, and app-specific state are opt-in.
+`snapshot.sh` writes current-machine state for enabled modules. The base captures are Homebrew, dotfiles, and macOS preferences; language stacks, AI tooling, browsers, and app-specific state are opt-in.
 
 - Homebrew packages and apps to the configured snapshot folder
 - Dotfiles
@@ -78,15 +78,15 @@ cp user.config.toml.example user.config.toml
 
 ```toml
 [modules]
-homebrew = true
-macos    = true
-dev      = true
-r        = false
-python   = false
-terminal = false
-vscode   = false
-dotfiles = true
-claude   = false
+homebrew        = true
+macos           = true
+dev             = true
+r               = false
+python          = false
+terminal        = false
+vscode          = false
+dotfiles        = true
+claude          = false
 browser         = false
 iterm2          = false
 raycast         = false
@@ -108,7 +108,7 @@ Appearance supports:
 style = "Auto" # Auto | Dark | Light
 ```
 
-`sync.sh` still captures the live machine state to `$SNAPSHOTS_DIR/macos.toml` using copy-pasteable `[macos.*]` sections so you can compare observed state against your desired `user.config.toml` values.
+`snapshot.sh` still captures the live machine state to `$SNAPSHOTS_DIR/macos.toml` using copy-pasteable `[macos.*]` sections so you can compare observed state against your desired `user.config.toml` values.
 
 ### Homebrew profiles
 
@@ -153,7 +153,7 @@ Generated snapshots are personal observed machine state and are ignored by git b
 
 Destination precedence:
 
-1. `./sync.sh --snapshots-dir PATH` for a one-off run
+1. `./snapshot.sh --snapshots-dir PATH` for a one-off run
 2. `[snapshots].path` in `user.config.toml`
 3. `~/Library/Mobile Documents/com~apple~CloudDocs/macOS State/snapshots` when iCloud Drive is available
 4. `~/Library/Application Support/macOS State/snapshots` as the local fallback
@@ -162,10 +162,10 @@ Examples:
 
 ```sh
 # One-off snapshot destination
-./sync.sh --snapshots-dir "$HOME/Dropbox/macOS State/snapshots"
+./snapshot.sh --snapshots-dir "$HOME/Dropbox/macOS State/snapshots"
 
 # Keep old repo-local behavior for a private checkout
-./sync.sh --snapshots-dir ./snapshots
+./snapshot.sh --snapshots-dir ./snapshots
 ```
 
 ## Reconciling snapshots with desired state
@@ -174,7 +174,7 @@ Use reconciliation when you have installed apps manually and want to bring the f
 
 ```sh
 # 1. Capture observed machine state
-./sync.sh
+./snapshot.sh
 
 # 2. Compare observed Homebrew state against committed profiles
 ./scripts/reconcile_homebrew_profiles.sh
@@ -195,10 +195,10 @@ The reconciliation report separates:
 
 ```sh
 # Capture the current Mac into configured snapshots
-./sync.sh
+./snapshot.sh
 
 # Apply desired state on a fresh or reset Mac
-chmod +x install.sh sync.sh
+chmod +x install.sh snapshot.sh
 ./install.sh
 
 # Or run individual modules
@@ -227,7 +227,7 @@ Config files live in `dotfiles/` and are symlinked into `~` by `scripts/dotfiles
 ## Updating macOS State
 
 1. Change or install something manually and confirm it works.
-2. Run `./sync.sh` to capture current state when a sync module exists.
+2. Run `./snapshot.sh` to capture current state when a snapshot module exists.
 3. Add apply logic to the matching `scripts/*.sh` file when the state should be reproducible after reset.
 4. Add or update module toggles in `user.config.toml.example` when needed.
 5. Commit the repo changes so the desired state is preserved for next time.

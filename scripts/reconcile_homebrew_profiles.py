@@ -232,7 +232,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     snapshot = args.snapshot.expanduser()
     if not snapshot.exists():
         print(f"Snapshot Brewfile not found: {snapshot}", file=sys.stderr)
-        print("Run ./sync.sh first, or pass --snapshot PATH", file=sys.stderr)
+        print("Run ./snapshot.sh first, or pass --snapshot PATH", file=sys.stderr)
         return 2
 
     profiles = profile_files(root)
