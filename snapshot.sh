@@ -77,7 +77,7 @@ run_if_enabled "Manual Applications"      "modules.manual_apps"     manual-apps.
 run_if_enabled "macOS preferences"        "modules.macos"           macos.sh           true
 run_if_enabled "R packages"               "modules.r"               r.sh               false
 run_if_enabled "Python packages"          "modules.python"          python.sh          false
-run_if_enabled "Claude Code config"       "modules.claude"          claude.sh          false
+run_if_enabled "AI agents config"         "modules.ai_agents"       ai-agents.sh       false
 run_if_enabled "Browser extensions"       "modules.browser"         browser.sh         false
 run_if_enabled "iTerm2 profile"           "modules.iterm2"          iterm2.sh          false
 run_if_enabled "Raycast settings"         "modules.raycast"         raycast.sh         false

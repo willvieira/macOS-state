@@ -33,7 +33,7 @@ PROFILE_ORDER = [
     "profiles/vscode/themes.Brewfile",
     "profiles/vscode/python.Brewfile",
     "profiles/vscode/r.Brewfile",
-    "profiles/ai/claude.Brewfile",
+    "profiles/ai/agents.Brewfile",
 ]
 
 

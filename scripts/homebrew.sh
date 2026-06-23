@@ -61,4 +61,4 @@ apply_profile_if_enabled "vscode"        "vscode"        false "$PROFILES_DIR/vs
 apply_profile_if_enabled "vscode themes" "vscode_themes" false "$PROFILES_DIR/vscode/themes.Brewfile"
 apply_profile_if_enabled "vscode python" "python"        false "$PROFILES_DIR/vscode/python.Brewfile"
 apply_profile_if_enabled "vscode r"      "r"             false "$PROFILES_DIR/vscode/r.Brewfile"
-apply_profile_if_enabled "claude"        "claude"        false "$PROFILES_DIR/ai/claude.Brewfile"
+apply_profile_if_enabled "ai agents"     "ai_agents"    false "$PROFILES_DIR/ai/agents.Brewfile"

@@ -36,7 +36,7 @@ macos-state/
 │   ├── python_packages.sh      # Install Python packages
 │   ├── terminal.sh             # Optional Oh My Zsh, Powerlevel10k, plugins
 │   ├── dotfiles.sh             # Symlink dotfiles into ~
-│   ├── claude.sh               # Claude Code plugins and GSD setup
+│   ├── ai_agents.sh            # Claude Code plugin setup from the AI profile
 │   └── snapshot/               # Capture scripts for current-machine state
 └── dotfiles/                   # Source-controlled dotfiles
 ```
@@ -53,7 +53,7 @@ macos-state/
 - VS Code extensions through Homebrew profiles
 - R packages, when enabled
 - Python packages, when enabled
-- Claude Code settings and plugins, when enabled
+- AI agent versions and Claude Code plugin settings, when enabled
 - Browser-related state, when enabled
 - iTerm2 profile, when enabled
 - Raycast settings, when enabled
@@ -71,7 +71,7 @@ macos-state/
 - Terminal shell tooling, when enabled
 - VS Code extensions through Homebrew profiles
 - Dotfile symlinks
-- Claude Code plugin setup, when enabled
+- Claude Code plugin setup from `profiles/ai/agents.Brewfile`, when enabled
 
 ## Configuration
 
@@ -95,7 +95,7 @@ vscode          = false
 dotfiles        = true
 local_bin       = false
 manual_apps     = false
-claude          = false
+ai_agents       = false
 browser         = false
 node            = false
 productivity    = false
@@ -130,6 +130,10 @@ For example, `modules.python = true` enables the Python Homebrew profile and Pyt
 
 To customize packages, edit an existing profile file or add a new committed profile file and wire it into `scripts/homebrew.sh` with a matching `[modules]` key. Avoid treating generated snapshots as install input; promote entries from snapshots into profiles intentionally. Optional `# reconcile:` comments in profile files tell the reconciliation script where new observed packages should be suggested.
 
+### AI agent profile
+
+Claude Code plugin setup is explicitly listed in `profiles/ai/agents.Brewfile` using `# claude_marketplace` and `# claude_plugin` directives. The AI agents install script parses those comments, registers marketplace sources, and installs/enables listed plugins.
+
 ### Optional heavier modules
 
 Some modules intentionally remain available but off by default because they encode stronger workflow choices:
@@ -138,7 +142,7 @@ Some modules intentionally remain available but off by default because they enco
 - `r`: restores or installs a broad R package stack
 - `python`: installs a broad Python data/ML/LLM-oriented environment
 - `vscode`: installs VS Code and a base editor extension set
-- `claude`: configures Claude Code, plugins, and skills
+- `ai_agents`: configures Claude Code plugins from explicit directives in `profiles/ai/agents.Brewfile`
 - `local_bin`: captures metadata for user-local commands such as `~/.local/bin/hermes` without reading file contents
 - `manual_apps`: captures `/Applications` apps that appear to require manual reinstall instructions after excluding Apple defaults, App Store apps, and Homebrew casks
 - `node`, `productivity`, `vscode_themes`: install optional Homebrew profile groups

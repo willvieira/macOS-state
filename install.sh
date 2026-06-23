@@ -39,7 +39,7 @@ run_if_enabled "R packages"          "modules.r"        r_packages.sh      false
 run_if_enabled "Python packages"     "modules.python"   python_packages.sh false
 run_if_enabled "Terminal setup"      "modules.terminal" terminal.sh        false
 run_if_enabled "Dotfiles"            "modules.dotfiles" dotfiles.sh         true
-run_if_enabled "Claude Code plugins" "modules.claude"   claude.sh           false
+run_if_enabled "AI agents"           "modules.ai_agents" ai_agents.sh       false
 
 echo ""
 echo "==> Done. Restart your Mac for all settings to take effect."
