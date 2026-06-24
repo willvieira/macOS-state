@@ -6,7 +6,6 @@
 
 tap "alexsjones/llmfit"
 brew "alexsjones/llmfit/llmfit", trusted: true
-brew "node"
 cask "claude"
 npm "@anthropic-ai/claude-code"
 npm "@openai/codex"

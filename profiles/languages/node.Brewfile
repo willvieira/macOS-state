@@ -2,4 +2,3 @@
 # reconcile: kind=npm default
 
 brew "node"
-brew "pnpm"
