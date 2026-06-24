@@ -10,8 +10,28 @@ if [[ ! -f "$AI_BREWFILE" ]]; then
   exit 0
 fi
 
+echo "  Installing AI tools from profiles/ai/agents.Brewfile..."
+brew bundle install --file "$AI_BREWFILE"
+
+# Refresh Bash's command lookup after package installation.
+hash -r
+
+CLAUDE_BIN="$(command -v claude || true)"
+
+if [[ -z "$CLAUDE_BIN" ]]; then
+  echo "  Claude Code CLI was not found after installation." >&2
+  echo "  Check the Claude Code package installation and your PATH." >&2
+  exit 1
+fi
+
+if ! "$CLAUDE_BIN" --version; then
+  echo "  Claude CLI exists but is not executable: $CLAUDE_BIN" >&2
+  echo "  Inspect it with: file \"$CLAUDE_BIN\"" >&2
+  exit 1
+fi
+
 echo "  Applying Claude Code plugin setup from profiles/ai/agents.Brewfile..."
-python3 "$REPO_ROOT/scripts/apply_claude_plugin_selection.py" \
+python3 "$REPO_ROOT/scripts/apply_ai_profile.py" \
   --brewfile "$AI_BREWFILE" \
   --settings "$CLAUDE_SETTINGS"
 

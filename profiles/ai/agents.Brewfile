@@ -6,13 +6,16 @@
 
 tap "alexsjones/llmfit"
 brew "alexsjones/llmfit/llmfit", trusted: true
-cask "claude"
-npm "@anthropic-ai/claude-code"
+cask "claude-code"
 npm "@openai/codex"
 npm "@alibaba-group/open-code-review"
 npm "codeburn"
 vscode "anthropic.claude-code"
 vscode "openai.chatgpt"
+
+# Hermes Agent
+# Parsed by scripts/apply_ai_profile.py
+# hermes_agent
 
 # Claude Code plugin marketplaces
 # Parsed by scripts/apply_claude_plugin_selection.py; comments keep this file valid for brew bundle
