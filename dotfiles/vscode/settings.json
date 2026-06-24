@@ -17,5 +17,7 @@
   "r.alwaysUseActiveTerminal": true,
   "r.bracketedPaste": true,
   "r.lsp.diagnostics": false,
-  "r.lsp.enabled": false
+"r.lsp.enabled": false,
+"terminal.integrated.mouseWheelScrollSensitivity": 3,
+"terminal.integrated.gpuAcceleration": "off"
 }
