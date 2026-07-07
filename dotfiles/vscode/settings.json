@@ -19,5 +19,6 @@
   "r.lsp.diagnostics": false,
 "r.lsp.enabled": false,
 "terminal.integrated.mouseWheelScrollSensitivity": 3,
-"terminal.integrated.gpuAcceleration": "off"
+"terminal.integrated.gpuAcceleration": "off",
+"redhat.telemetry.enabled": false
 }
