@@ -25,11 +25,12 @@ cask "rar"
 cask "rectangle"
 cask "slack"
 cask "vlc"
+cask "zed"
+cask "todoist-app"
 
 mas "Keynote", id: 409183694
 mas "Keynote", id: 361285480
 mas "Notion Web Clipper", id: 1559269364
 mas "Numbers", id: 409203825
-mas "Todoist", id: 585829637
 mas "Trello", id: 1278508951
 mas "WhatsApp", id: 310633997
