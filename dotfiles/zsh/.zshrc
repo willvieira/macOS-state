@@ -95,6 +95,7 @@ export EDITOR="nano"
 # Aliases
 alias cl="claude"
 alias vs="code . && exit"
+alias zs="zed . && exit"
 alias r="arf"
 alias c="clear"
 alias h="hermes"
