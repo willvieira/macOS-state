@@ -47,6 +47,7 @@ $UV \
 # Jupyter & utilities
 $UV \
   jupyter jupyterlab ipywidgets \
+  black debugpy isort pytest ruff \
   tqdm rich typer "pydantic>=2" \
   httpx requests python-dotenv loguru click
 

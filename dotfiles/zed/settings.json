@@ -8,24 +8,68 @@
     "dark": "One Dark",
     "light": "One Light",
   },
+  "auto_install_extensions": {
+    "air": true,
+    "docker-compose": true,
+    "dockerfile": true,
+    "git-firefly": true,
+    "html": true,
+    "material-icon-theme": true,
+    "python-requirements": true,
+    "quarto": true,
+    "r": true,
+    "rainbow-csv": true,
+    "ruff": true,
+    "stan": true,
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
   "minimap": {
-    "show": "never",
+    "show": "never"
   },
   "show_edit_predictions": false,
   "terminal": {
     "font_family": "MesloLGS NF",
     "shell": {
-      "program": "/bin/zsh",
+      "program": "/bin/zsh"
     },
-    "scroll_multiplier": 3.0,
+    "scroll_multiplier": 3.0
+  },
+  "lsp": {
+    "basedpyright": {
+      "initialization_options": {
+        "disablePullDiagnostics": true
+      },
+      "settings": {
+        "basedpyright.analysis": {
+          "diagnosticMode": "workspace",
+          "typeCheckingMode": "standard"
+        }
+      }
+    }
   },
   "languages": {
-    "R": {
-      "enable_language_server": false,
+    "Python": {
+      "language_servers": ["!ty", "basedpyright", "..."],
+      "code_actions_on_format": {
+        "source.organizeImports.ruff": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "ruff"
+        }
+      }
     },
+    "R": {
+      "language_servers": ["air", "r_language_server"],
+      "use_on_type_format": false
+    }
   },
   "telemetry": {
     "diagnostics": false,
-    "metrics": false,
-  },
+    "metrics": false
+  }
 }

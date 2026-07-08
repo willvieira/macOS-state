@@ -69,6 +69,7 @@ macos-state/
 - Terminal shell tooling, when enabled
 - VS Code extensions through Homebrew profiles
 - Dotfile symlinks
+- Zed settings and extension auto-install preferences through dotfiles
 - Claude Code plugin setup from `profiles/ai/agents.Brewfile`, when enabled
 
 ## Configuration
@@ -124,7 +125,7 @@ style = "Auto" # Auto | Dark | Light
 
 Homebrew state is split into layered profiles instead of one personal `Brewfile`. The files under `profiles/` are committed desired state and are meant to be edited directly before running `install.sh`. `scripts/homebrew.sh` applies `profiles/base/Brewfile` when `modules.homebrew = true`, then applies optional profile files from the matching `[modules]` toggles.
 
-For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions. Profile-only package groups such as `node`, `productivity`, and `vscode_themes` also live under `[modules]` so config has a single toggle table.
+For example, `modules.python = true` enables the Python Homebrew profile and Python VS Code extensions. Zed is installed from the productivity profile and its language workflows are configured through `dotfiles/zed/settings.json`. Profile-only package groups such as `node`, `productivity`, and `vscode_themes` also live under `[modules]` so config has a single toggle table.
 
 To customize packages, edit an existing profile file or add a new committed profile file and wire it into `scripts/homebrew.sh` with a matching `[modules]` key. Avoid treating generated snapshots as install input; promote entries from snapshots into profiles intentionally. Optional `# reconcile:` comments in profile files tell the reconciliation script where new observed packages should be suggested.
 
@@ -214,6 +215,8 @@ Config files live in `dotfiles/` and are symlinked into `~` by `scripts/dotfiles
 | `zsh/.zshrc` | `~/.zshrc` |
 | `zsh/.p10k.zsh` | `~/.p10k.zsh` |
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
+| `zed/settings.json` | `~/.config/zed/settings.json` |
+
 
 ### Shell features (`.zshrc`)
 
