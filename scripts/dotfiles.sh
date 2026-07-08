@@ -18,6 +18,7 @@ LINKS=(
   "zsh/.zshrc|$HOME/.zshrc"
   "zsh/.p10k.zsh|$HOME/.p10k.zsh"
   "vscode/settings.json|$HOME/Library/Application Support/Code/User/settings.json"
+  "zed/settings.json|$HOME/.config/zed/settings.json"
 )
 
 for entry in "${LINKS[@]}"; do

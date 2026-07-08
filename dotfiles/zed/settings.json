@@ -1,0 +1,31 @@
+{
+  "base_keymap": "VSCode",
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_fallbacks": ["Fira Code"],
+  "buffer_font_size": 13,
+  "theme": {
+    "mode": "system",
+    "dark": "One Dark",
+    "light": "One Light",
+  },
+  "minimap": {
+    "show": "never",
+  },
+  "show_edit_predictions": false,
+  "terminal": {
+    "font_family": "MesloLGS NF",
+    "shell": {
+      "program": "/bin/zsh",
+    },
+    "scroll_multiplier": 3.0,
+  },
+  "languages": {
+    "R": {
+      "enable_language_server": false,
+    },
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+}
