@@ -1,4 +1,20 @@
 {
+  "diff_view_style": "unified",
+  "agent": {
+    "favorite_models": [],
+    "notify_when_agent_waiting": "never",
+    "model_parameters": []
+  },
+  "agent_servers": {
+    "hermes": {
+      "type": "custom",
+      "command": "~/.local/bin/hermes",
+      "args": [
+        "acp"
+      ]
+    }
+  },
+  "cli_default_open_behavior": "new_window",
   "base_keymap": "VSCode",
   "autosave": "on_focus_change",
   "buffer_font_family": "JetBrains Mono",
@@ -7,7 +23,7 @@
   "theme": {
     "mode": "system",
     "dark": "One Dark",
-    "light": "One Light"
+    "light": "Catppuccin Latte"
   },
   "auto_install_extensions": {
     "air": true,
@@ -73,5 +89,6 @@
   "telemetry": {
     "diagnostics": false,
     "metrics": false
-  }
+  },
+  "confirm_quit": true
 }

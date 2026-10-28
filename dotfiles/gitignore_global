@@ -58,4 +58,6 @@ venv/
 .planning/
 .context/
 .hermes/
+work/
 
+**/.claude/settings.local.json

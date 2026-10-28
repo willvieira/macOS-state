@@ -49,9 +49,10 @@ for entry in "${LINKS[@]}"; do
     echo "  [backing up] $dest -> $backup"
     mv "$dest" "$backup"
     ln -s "$src" "$dest"
+    echo "  [linked] $dest -> $src"
   else
     ln -s "$src" "$dest"
-    echo "  [linked] $dest"
+    echo "  [linked] $dest -> $src"
   fi
 done
 
