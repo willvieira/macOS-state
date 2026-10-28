@@ -91,14 +91,27 @@ bindkey "^E" end-of-line
 bindkey "^W" backward-kill-word
 
 export EDITOR="nano"
+export VISUAL="$EDITOR"
+export SCRIPT_EDITOR="zed --wait"
+
+# Temporary Hermes workaround for Zed One Dark inheriting stale COLORFGBG
+# Remove once Hermes ignores Zed's inherited terminal color metadata
+if [[ -n "$ZED_TERM" || "$TERM_PROGRAM" == "zed" ]]; then
+  export HERMES_TUI_THEME="${HERMES_TUI_THEME:-dark}"
+fi
 
 # Aliases
 alias cl="claude"
 alias vs="code . && exit"
-alias zs="zed . && exit"
+alias zs="zed --classic . && exit"
 alias r="arf"
 alias c="clear"
 alias h="hermes"
+alias uvs="uv sync"
+alias uva="source .venv/bin/activate"
+
+# Functions
+source ~/GitHub/macOS-state/dotfiles/zsh/functions.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
